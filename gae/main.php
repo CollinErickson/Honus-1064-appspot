@@ -244,7 +244,11 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 	//foreach($datescoreboardpagexml as $ii) {echo $ii;echo " ";};
 	//echo "beefore hilites";
 	//$filename = "http://gd2.mlb.com/components/game/mlb/year_2015/month_06/day_14/gid_2015_06_14_lanmlb_sdnmlb_1/media/highlights.xml";
-	$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/highlights.xml";
+	$addif2016 = "";
+	if ($year >= 2016) {
+		$addif2016 = "_es";
+	}
+	$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/highlights{$addif2016}.xml";
 	//echo $filename;
 	$headlines = array();
 	$blurbs = array();
@@ -300,6 +304,8 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 	echo "Current time: ".date("    D M j G:i:s T Y"); 
 	$dp = date_parse("20130803");
 	echo $dp['day'];
+	echo '<br />';
+	echo $filename;
 ?>
 
 </body>
