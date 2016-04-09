@@ -1,0 +1,31 @@
+BODY  { background:  white; color: black }
+
+#headlinestable {
+	color: black;
+	background: pink;
+	font-size: small;
+    border: 5px solid black;
+}
+
+#scorestable {
+	color: black;
+	background: orange;
+	font-size: small;
+    border: 5px solid black;
+}
+.scorestablegame {
+    border: 5px solid red;
+	/*color: maroon;*/
+}
+	
+.scorestablegametd {
+    border-top: 1px solid black;
+}
+
+.headlinestabletr {
+	border: 2px solid blue;
+}
+
+.headlinestabletd {
+	border-top: 1px solid fuchsia;
+}
