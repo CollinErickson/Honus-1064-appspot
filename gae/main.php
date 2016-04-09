@@ -242,13 +242,15 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 	$selectedgamemasterscoreboard = $datescoreboardpagexml -> game[0];
 	//echo $selectedgamemasterscoreboard -> attributes() -> home_team_name;
 	//foreach($datescoreboardpagexml as $ii) {echo $ii;echo " ";};
-	//echo "beefore hilites";
+	//echo "before hilites";
 	//$filename = "http://gd2.mlb.com/components/game/mlb/year_2015/month_06/day_14/gid_2015_06_14_lanmlb_sdnmlb_1/media/highlights.xml";
-	$addif2016 = "";
-	if ($year >= 2016) {
-		$addif2016 = "_es";
-	}
-	$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/highlights{$addif2016}.xml";
+	#$addif2016 = "";
+	#if ($year >= 2016) {
+	#	$addif2016 = "_es";
+	#}
+	#$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/highlights{$addif2016}.xml";
+	# Switching to get highlights from mobile.xml
+	$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/mobile.xml";
 	//echo $filename;
 	$headlines = array();
 	$blurbs = array();
@@ -264,7 +266,23 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 		foreach ($xml as $media) {
 			array_push($headlines,$media->headline);
 			array_push($blurbs,$media->blurb);
-			array_push($urls,$media->url);
+			//array_push($urls,$media->url[3]);
+			
+			// The following section finds the mp4 url if possible since it is listed first in 2016 but was 4th in 2015.
+			$someurladded = 0;
+			foreach($media->url as $books) { // books is the url tag because I copied it from a books example
+				if ($books->attributes()[0] =="FLASH_1200K_640X360") {  // If the attribute value is this, it adds it
+					array_push($urls,$books);
+					$someurladded = $someurladded + 1; // keep of track whether or not one has been added
+				}
+			} 
+			if ($someurladded == 0) { // if it didn't find the mp4, just take the first one
+				array_push($urls,$media->url[0]);
+				echo 'Error 987235 no mp4 found';
+			}
+			if ($someurladded >1) {
+				echo 'Error 3873259 added more than one URL';
+			}
 		}
 	}
 	
