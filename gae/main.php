@@ -98,6 +98,11 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 
 <?php
 	// set date today
+	#$gdate =  getdate();
+	#echo $gdate['mday'];
+	// Use West coast time, in future will just use previous day if before 11 AM maybe, or if no games have started
+	date_default_timezone_set('America/Los_Angeles');
+	#echo date('d');
 	$year = date('Y');
 	$month = date('m');
 	$day = date('d');
@@ -306,7 +311,7 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 		</table></td>
 		<td>
 			
-			<video id="videoplayer" controls >
+			<video id="videoplayer" controls  onclick="this.paused ? this.play() : this.pause();">
 			<source src="<?php echo $urls[0];?>" type="video/mp4">
 			Your browser does not support the video tag.
 			</video>
@@ -319,9 +324,9 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 </tr></table>
 
 <?php 
-	echo "Current time: ".date("    D M j G:i:s T Y"); 
-	$dp = date_parse("20130803");
-	echo $dp['day'];
+	echo "Current time: " . date("    D M j G:i:s T Y"); 
+	#$dp = date_parse("20130803");
+	#echo $dp['day'];
 	echo '<br />';
 	echo $filename;
 ?>
