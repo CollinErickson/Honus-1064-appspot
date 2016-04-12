@@ -229,6 +229,18 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
+			} elseif (($a->status->attributes()->status)=="Postponed") {
+				echo "</td><td>";
+				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
+				echo "PP";
+				echo "</td><td>";
+				//echo "PP";
+				echo $a->status->attributes()->reason;
+			} elseif (($a->status->attributes()->status)=="Pre-Game") {
+				echo "</td><td>";
+				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>";
+				echo "</td><td>";
+				echo $a->attributes()->time," ET";
 			} else {
 				echo "Game status unknown";
 			}
