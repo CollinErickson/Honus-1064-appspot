@@ -209,24 +209,25 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 
 	// create table of scores, each row is a game
 	echo "<table id='scorestable'>";
+	$iii = 0; // keep track of which game each is
 	foreach($datescoreboardpagexml as $a) {
 		//echo substr($a->attributes()-> away_code , 0,3);
-		echo '<tr class="scorestablegame" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day) .'"><td class="scorestablegametd">';
-			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>";
+		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day) .'"><td class="scorestablegametd">';
+			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
 			if (($a->status->attributes()->status)=="Final") {
 				echo "</td><td>";
-				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
+				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
 				echo "F";
-			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review") {
+			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge") {
 				echo "</td><td>";
-				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
+				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#8593;";} else {echo "&#8595;";}
 				echo $a->status->attributes()->inning;
 			} elseif (($a->status->attributes()->status)=="Preview") {
 				echo "</td><td>";
-				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>";
+				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
 			} elseif (($a->status->attributes()->status)=="Postponed") {
@@ -238,15 +239,22 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 				echo $a->status->attributes()->reason;
 			} elseif (($a->status->attributes()->status)=="Pre-Game") {
 				echo "</td><td>";
-				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>";
+				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
 			} else {
-				echo "Game status unknown";
+				echo $a->status->attributes()->status ;
 			}
-		echo "</td></tr>";
+		echo "</td></tr>\n";
+		$iii = $iii + 1;
 	}
 	echo "</table>";
+	
+	// Make it clear which game is currently selected
+	//echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').setAttribute('style', 'font-weight:bold')</script>";
+	echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style['font-weight']='bold'</script>";
+	echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.color='black'</script>\n";
+	echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.background='#df80ff'</script>";
 ?>
 
 <?php	
@@ -313,20 +321,30 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 	<tr>
 		<td><table id="headlinestable">
 			<?php
-				for ($iii=0; $iii<count($headlines); $iii++) {
-					$headline = $headlines[$iii];
-					$url = $urls[$iii];
-					echo "<tr class='headlinestabletr'><td id='headline",$iii,"' class='headlinestabletd' 
-					onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td></tr>";
+				if (count($headlines)>0) {
+					for ($iii=0; $iii<count($headlines); $iii++) {
+						$headline = $headlines[$iii];
+						$url = $urls[$iii];
+						echo "<tr class='headlinestabletr'><td id='headline",$iii,"' class='headlinestabletd' 
+						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td></tr>";
+					}
+				} else {
+					//echo 'no game yet';
 				}
 			?>
 		</table></td>
 		<td>
-			
-			<video id="videoplayer" controls  onclick="this.paused ? this.play() : this.pause();">
-			<source src="<?php echo $urls[0];?>" type="video/mp4">
-			Your browser does not support the video tag.
-			</video>
+			<?php
+				// make video player if any headlines
+				if (count($headlines)>0) {
+					echo '<video id="videoplayer" controls  onclick="this.paused ? this.play() : this.pause();">
+					<source src="<?php echo $urls[0];?>" type="video/mp4">
+					Your browser does not support the video tag.
+					</video>';
+				} else { // else do something else
+					echo '<img src="http://mlb.mlb.com/mlb/images/devices/teamBackdrop/teamBackdrop.jpg" />';
+				}
+			?>
 		</td>
 	</tr>
 </table>
