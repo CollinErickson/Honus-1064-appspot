@@ -158,6 +158,29 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 	
 ?>
 
+
+<?php
+// This section sets the datepicker day to the selected day
+echo '<script  type="text/javascript">
+	//  jQuery ready function. Specify a function to execute when the DOM is fully loaded. 
+	$(document).ready(
+	  // This is the function that will get executed after the DOM is fully loaded 
+	  function () {console.log("ready 0987520933");
+		$( "#datepicker" ).datepicker({
+		  changeMonth: true,//this option for allowing user to select month
+		  changeYear: true //this option for allowing user to select from year range
+		});
+		var today = new Date();console.log("08"+"/"+today.getDate()+"/"+today.getFullYear());
+		//$( "#datepicker" ).datepicker("setDate",(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear());
+		$( "#datepicker" ).datepicker("setDate",' . $month . '+"/"+ ' . $day . '+"/"+' . $year . ');
+	  }
+
+	);
+	</script>';
+?>
+
+
+
 <body>
 
 <table id="toptable"><tr>
@@ -252,9 +275,9 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 	
 	// Make it clear which game is currently selected
 	//echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').setAttribute('style', 'font-weight:bold')</script>";
-	echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style['font-weight']='bold'</script>";
-	echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.color='black'</script>\n";
-	echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.background='#df80ff'</script>";
+	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style['font-weight']='bold'</script>";
+	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.color='black'</script>\n";
+	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.background='#df80ff'</script>";
 ?>
 
 <?php	
