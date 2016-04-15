@@ -310,7 +310,7 @@ echo '<script  type="text/javascript">
 		echo "\nNo highlights yet";
 	} else {
 		$xml = simplexml_load_string($homepage);
-		echo $xml;
+		//echo $xml;
 		foreach ($xml as $media) {
 			array_push($headlines,$media->headline);
 			array_push($blurbs,$media->blurb);
@@ -365,7 +365,20 @@ echo '<script  type="text/javascript">
 					Your browser does not support the video tag.
 					</video>';
 				} else { // else do something else
-					echo '<img src="http://mlb.mlb.com/mlb/images/devices/teamBackdrop/teamBackdrop.jpg" />';
+					//echo '<img src="http://mlb.mlb.com/mlb/images/devices/teamBackdrop/teamBackdrop.jpg" />';
+					
+					// trying something new here
+					
+					$novideofilename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/atv_preview_noscores.xml";
+					//echo $novideofilename;
+					$novideohomepage = file_get_contents($novideofilename);
+					$novideoxml = simplexml_load_string($novideohomepage);
+					//echo $novideoxml[0];
+					//echo $novideoxml -> body -> preview -> baseballLineScorePreview -> leftLabel ;
+					//echo $novideoxml -> body -> preview -> baseballLineScorePreview -> banners -> imageWithLabels -> image ;
+					
+					echo '<img src="' . $novideoxml -> body -> preview -> baseballLineScorePreview -> banners -> imageWithLabels -> image . '" />';
+					echo '<img src="' . $novideoxml -> body -> preview -> baseballLineScorePreview -> banners -> imageWithLabels[1] -> image . '" />';
 				}
 			?>
 		</td>
