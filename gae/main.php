@@ -224,7 +224,7 @@ echo '<script  type="text/javascript">
  
 
 
-<table id="midtable"><tr>
+<table id="midtable"><tr style="vertical-align:top;">
 <td>
 
 
@@ -237,7 +237,7 @@ echo '<script  type="text/javascript">
 		//echo substr($a->attributes()-> away_code , 0,3);
 		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day) .'"><td class="scorestablegametd">';
 			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
-			if (($a->status->attributes()->status)=="Final") {
+			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
 				echo "</td><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
@@ -260,11 +260,6 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				//echo "PP";
 				echo $a->status->attributes()->reason;
-			#} elseif (($a->status->attributes()->status)=="Pre-Game") {
-			#	echo "</td><td>";
-			#	echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
-			#	echo "</td><td>";
-			#	echo $a->attributes()->time," ET";
 			} else {
 				echo $a->status->attributes()->status ;
 			}
@@ -342,21 +337,30 @@ echo '<script  type="text/javascript">
 
 <table>
 	<tr>
-		<td><table id="headlinestable">
+		<td style="vertical-align:top;"><table id="headlinestable">
 			<?php
 				if (count($headlines)>0) {
 					for ($iii=0; $iii<count($headlines); $iii++) {
 						$headline = $headlines[$iii];
-						$url = $urls[$iii];
+						//$url = $urls[$iii]; now using different qualities/sizes
+						$url1200K = $urls[$iii];
+						$url2500K = str_replace('1200K','2500K',$url1200K);
+						$url1800K = str_replace('1200K','1800K',$url1200K);
+						$url = $url1800K; // This sets the quality
 						echo "<tr class='headlinestabletr'><td id='headline",$iii,"' class='headlinestabletd' 
-						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td></tr>";
+						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
+								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td>
+								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>
+								<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>?</td>
+								</tr>";
 					}
 				} else {
 					//echo 'no game yet';
 				}
 			?>
 		</table></td>
-		<td>
+		<td style="vertical-align:top;">
 			<?php
 				// make video player if any headlines
 				if (count($headlines)>0) {
