@@ -248,7 +248,7 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#8593;";} else {echo "&#8595;";}
 				echo $a->status->attributes()->inning;
-			} elseif (($a->status->attributes()->status)=="Preview") {
+			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				echo "</td><td>";
 				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
 				echo "</td><td>";
@@ -260,11 +260,11 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				//echo "PP";
 				echo $a->status->attributes()->reason;
-			} elseif (($a->status->attributes()->status)=="Pre-Game") {
-				echo "</td><td>";
-				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
-				echo "</td><td>";
-				echo $a->attributes()->time," ET";
+			#} elseif (($a->status->attributes()->status)=="Pre-Game") {
+			#	echo "</td><td>";
+			#	echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
+			#	echo "</td><td>";
+			#	echo $a->attributes()->time," ET";
 			} else {
 				echo $a->status->attributes()->status ;
 			}
