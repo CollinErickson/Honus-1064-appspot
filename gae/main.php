@@ -91,7 +91,7 @@
  //   $GETdata['team'] = $_GET['team'];
 //}
 
-$teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','HOU','KCA','LAN','MIA','MIL','MIN','NYA','NYN','OAK','PHI','PIT','SDN','SEA','SFN','SLN','TEX','TOR','WAS');
+$teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','HOU','KCA','LAN','MIA','MIL','MIN','NYA','NYN','OAK','PHI','PIT','SDN','SEA','SFN','SLN','TBA','TEX','TOR','WAS');
 
 ?>
 
@@ -155,6 +155,9 @@ $teamslist = array('ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','
 		//echo  strtoupper($a->attributes()-> home_code); echo $team;
 		$iii = $iii + 1;
 	}
+	
+	$away_code = $datescoreboardpagexml -> game[$selectedgamenumber] -> attributes() -> away_code;
+	$home_code = $datescoreboardpagexml -> game[$selectedgamenumber] -> attributes() -> home_code;
 	
 ?>
 
@@ -220,6 +223,60 @@ echo '<script  type="text/javascript">
 		<?php echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;'>" . $awayteamname . " vs " . $hometeamname . "</a>"?>
 		
 	</h4></td>
+	<td>
+			<?php
+		// Box score at top right
+		
+		$rawboxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/rawboxscore.xml";
+		//echo $rawboxscoreurl;
+		$rawboxscorecontents = file_get_contents($rawboxscoreurl);
+		// Have to skip if game hasn't started yet
+		if ( substr($rawboxscorecontents,0,23) == "GameDay - 404 Not Found") {
+			//echo "\nNo highlights yet";
+		} else { // otherwise print the top boxscore			
+			$rawboxscore = simplexml_load_string($rawboxscorecontents);
+			echo '<table><tr>';
+			// loop through each inning and print the scores
+			foreach($rawboxscore -> linescore -> inning_line_score as $abc) {
+				echo '<td><table>';
+				echo '<tr><td>' . $abc -> attributes() -> inning . '</td></tr>';
+				echo '<tr><td>';
+				if (strlen($abc -> attributes() -> away) > 0) {
+					echo $abc -> attributes() -> away;
+				} else {
+					echo '-';
+				}
+				echo '</td></tr>';
+				echo '<tr><td>';
+				if (strlen($abc -> attributes() -> home) > 0) {
+					echo $abc -> attributes() -> home;
+				} else {
+					echo '-';
+				}
+				echo '</td></tr>';
+				echo '</table></td>';
+			}
+			// and summary stats
+			echo '<td><table>';
+			echo '<tr><td>R</td></tr>';
+			echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_runs . '</td></tr>';
+			echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_runs . '</td></tr>';
+			echo '</table></td>';
+			echo '<td><table>';
+			echo '<tr><td>H</td></tr>';
+			echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_hits . '</td></tr>';
+			echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_hits . '</td></tr>';
+			echo '</table></td>';
+			echo '<td><table>';
+			echo '<tr><td>E</td></tr>';
+			echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_errors. '</td></tr>';
+			echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
+			echo '</table></td>';
+			// finish boxscore
+			echo '</tr></table>';
+		}
+		?>
+	</td>
 </tr></table>
  
 
@@ -276,8 +333,8 @@ echo '<script  type="text/javascript">
 ?>
 
 <?php	
-	$away_code = $datescoreboardpagexml -> game[$selectedgamenumber] -> attributes() -> away_code;
-	$home_code = $datescoreboardpagexml -> game[$selectedgamenumber] -> attributes() -> home_code;
+	//$away_code = $datescoreboardpagexml -> game[$selectedgamenumber] -> attributes() -> away_code;
+	//$home_code = $datescoreboardpagexml -> game[$selectedgamenumber] -> attributes() -> home_code;
 	//echo $away_name_brev;
 	//echo "before?<p>";
 	//echo print_r($datescoreboardpagexml -> game[0] -> attributes()  );
@@ -393,8 +450,54 @@ echo '<script  type="text/javascript">
 </td>
 </tr></table>
 
+<?php
+// Box score at bottom
+/*$rawboxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/rawboxscore.xml";
+$rawboxscorecontents = file_get_contents($rawboxscoreurl);
+$rawboxscore = simplexml_load_string($rawboxscorecontents);
+echo '<table><tr>';
+// loop through each inning and print the scores
+foreach($rawboxscore -> linescore -> inning_line_score as $abc) {
+	echo '<td><table>';
+	echo '<tr><td>' . $abc -> attributes() -> inning . '</td></tr>';
+	echo '<tr><td>';
+	if (strlen($abc -> attributes() -> away) > 0) {
+		echo $abc -> attributes() -> away;
+	} else {
+		echo '-';
+	}
+	echo '</td></tr>';
+	echo '<tr><td>';
+	if (strlen($abc -> attributes() -> home) > 0) {
+		echo $abc -> attributes() -> home;
+	} else {
+		echo '-';
+	}
+	echo '</td></tr>';
+	echo '</table></td>';
+}
+// and summary stats
+echo '<td><table>';
+echo '<tr><td>R</td></tr>';
+echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_runs . '</td></tr>';
+echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_runs . '</td></tr>';
+echo '</table></td>';
+echo '<td><table>';
+echo '<tr><td>H</td></tr>';
+echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_hits . '</td></tr>';
+echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_hits . '</td></tr>';
+echo '</table></td>';
+echo '<td><table>';
+echo '<tr><td>E</td></tr>';
+echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_errors. '</td></tr>';
+echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
+echo '</table></td>';
+// finish boxscore
+echo '</tr></table>';*/
+?>
+
 <?php 
-	echo "Current time: " . date("    D M j G:i:s T Y"); 
+	echo "<br />\nCurrent time: " . date("    D M j G:i:s T Y"); 
 	#$dp = date_parse("20130803");
 	#echo $dp['day'];
 	echo '<br />';
