@@ -240,7 +240,7 @@ echo '<script  type="text/javascript">
 				// loop through each inning and print the scores
 				foreach($rawboxscore -> linescore -> inning_line_score as $abc) {
 					echo '<td><table>';
-					echo '<tr><td>' . $abc -> attributes() -> inning . '</td></tr>';
+					echo '<tr><td style="border-bottom:solid #ff0000">' . $abc -> attributes() -> inning . '</td></tr>';
 					echo '<tr><td>';
 					if (strlen($abc -> attributes() -> away) > 0) {
 						echo $abc -> attributes() -> away;
@@ -258,18 +258,18 @@ echo '<script  type="text/javascript">
 					echo '</table></td>';
 				}
 				// and summary stats
-				echo '<td><table>';
-				echo '<tr><td>R</td></tr>';
+				echo '<td><table style="border-left:thick double #ff0000">';
+				echo '<tr><td style="border-bottom:solid #ff0000">R</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_runs . '</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_runs . '</td></tr>';
 				echo '</table></td>';
 				echo '<td><table>';
-				echo '<tr><td>H</td></tr>';
+				echo '<tr><td style="border-bottom:solid #ff0000">H</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_hits . '</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_hits . '</td></tr>';
 				echo '</table></td>';
 				echo '<td><table>';
-				echo '<tr><td>E</td></tr>';
+				echo '<tr><td style="border-bottom:solid #ff0000">E</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_errors. '</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
 				echo '</table></td>';
@@ -499,30 +499,61 @@ echo '</tr></table>';*/
 
 <?php
 	// Second try at boxscore, this time with more stats
-	if ($rawboxscorenotavail) {
+	$boxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/boxscore.xml";
+	//echo $rawboxscoreurl;
+	$boxscorecontents = file_get_contents($boxscoreurl);
+	// Have to skip if game hasn't started yet
+	$boxscorenotavail= (substr($boxscorecontents,0,23) == "GameDay - 404 Not Found");
+	if ($boxscorenotavail) {
 		//echo "\nNo highlights yet";
 	} else { // otherwise print the top boxscore			
 		//$rawboxscore = simplexml_load_string($rawboxscorecontents);
+		$boxscore = simplexml_load_string($boxscorecontents);
 		//echo $rawboxscore -> team[0] -> batting -> batter[0] -> attributes() -> sb;
 		
 		echo '<table><tr>';
-		foreach(range(0,1) as $teamiii) {
-			echo '<td><table>';
+		foreach(range(0,1) as $teamii) {
+			//echo ($boxscore -> batting[$teamii] -> attributes() -> team_flag == 'home');
+			// The following makes it do away team first, then home
+			$teamiii = +!(($boxscore -> batting[0] -> attributes() -> team_flag == 'home') == ($teamiii));
+			$teamiiiname = '';
+			if($boxscore -> batting[$teamiii] -> attributes() -> team_flag == 'home') {
+				$teamiiiname = $boxscore -> attributes() -> home_sname;
+			} else {
+				$teamiiiname = $boxscore -> attributes() -> away_sname;
+			}
+			//echo $teamiii;
+			echo '<td><table border="1" style="text-align:center">';
 			echo '<tr>';
-			echo $rawboxscore -> team[0] -> attributes() -> full_name;
+			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
+			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
+			echo '<td>' . $teamiiiname . '</td>';
+			echo '<td>' . 'POS' . '</td>';
+			echo '<td>' . 'H' . '</td>';
+			echo '<td>' . 'BB' . '</td>';
+			echo '<td>' . 'HR' . '</td>';
+			echo '<td>' . 'RBI' . '</td>';
+			echo '<td>' . 'AB' . '</td>';
+			echo '<td>' . 'AVG' . '</td>';
+			echo '<td>' . 'OBP' . '</td>';
+			echo '<td>' . 'OPS' . '</td>';
+			echo '<td>' . 'HR' . '</td>';
+			echo '<td>' . 'RBI' . '</td>';
 			echo '</tr>';
-			foreach($rawboxscore -> team[$teamiii] -> batting -> batter as $batter) {
+			foreach($boxscore -> batting[$teamiii] -> batter as $batter) {
 				echo '<tr>';
 				echo '<td>' . $batter -> attributes() -> name_display_first_last . '</td>';
 				echo '<td>' . $batter -> attributes() -> pos . '</td>';
 				echo '<td>' . $batter -> attributes() -> h . '</td>';
-				echo '<td>' . $batter -> attributes() -> ab . '</td>';
 				echo '<td>' . $batter -> attributes() -> bb . '</td>';
-				echo '<td>' . $batter -> attributes() -> bam_avg . '</td>';
-				echo '<td>' . $batter -> attributes() -> bam_obp . '</td>';
-				echo '<td>' . $batter -> attributes() -> bam_ops . '</td>';
-				echo '<td>' . $batter -> attributes() -> bam_s_hr . '</td>';
-				echo '<td>' . $batter -> attributes() -> bam_s_rbi . '</td>';
+				echo '<td>' . $batter -> attributes() -> hr . '</td>';
+				echo '<td>' . $batter -> attributes() -> rbi . '</td>';
+				echo '<td>' . $batter -> attributes() -> ab . '</td>';
+				echo '<td>' . $batter -> attributes() -> avg . '</td>';
+				echo '<td>' . $batter -> attributes() -> obp . '</td>';
+				echo '<td>' . $batter -> attributes() -> ops . '</td>';
+				echo '<td>' . $batter -> attributes() -> s_hr . '</td>';
+				echo '<td>' . $batter -> attributes() -> s_rbi . '</td>';
 				echo '</tr>';
 			}
 			echo '</table><td>';
