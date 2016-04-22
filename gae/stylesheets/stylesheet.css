@@ -29,3 +29,7 @@ BODY  { background:  white; color: black }
 .headlinestabletd {
 	border-top: 1px solid fuchsia;
 }
+
+.scorestablegame { cursor:pointer; }  
+
+#headlinestable {cursor:pointer;}

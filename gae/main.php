@@ -297,20 +297,36 @@ echo '<script  type="text/javascript">
 			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
 			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
 				echo "</td><td>";
-				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
+				$winning_pitcher_line='-';$losing_pitcher_line='-';
+				$winning_pitcher_line = $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" . $a -> winning_pitcher ->attributes() -> losses . ")";
+				//echo $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" , $a -> winning_pitcher ->attributes() -> losses , ")";;
+				$losing_pitcher_line  = $a -> losing_pitcher  ->attributes() -> last . "(" . $a -> losing_pitcher  ->attributes() -> wins . "-" . $a -> losing_pitcher  ->attributes() -> losses . ")";
+				if( ((int)$a->linescore->r->attributes()->away) >  ((int)$a->linescore->r->attributes()->home)) {$away_pitcher_line = $winning_pitcher_line;$home_pitcher_line = $losing_pitcher_line;}
+				else {$home_pitcher_line = $winning_pitcher_line;$away_pitcher_line = $losing_pitcher_line;}
+				/*echo "<table><tr><td>", $a->linescore->r->attributes()->away, " ", $away_pitcher_line,"</td></tr>";
+				echo "<tr><td>",$a->linescore->r->attributes()->home, " ", $home_pitcher_line, "</td></tr></table>\n";
 				echo "</td><td>";
-				echo "F";
+				echo "F";*/
+				echo "<table><tr><td>", $a->linescore->r->attributes()->away,"</td></tr>";
+				echo "<tr><td>",$a->linescore->r->attributes()->home, "</td></tr></table>\n";
+				echo "</td><td>";
+				echo "<table><tr><td>",  $away_pitcher_line,"</td></tr>";
+				echo "<tr><td>", $home_pitcher_line, "</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge") {
 				echo "</td><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
-				if (($a->status->attributes()->top_inning)=="Y"){echo "&#8593;";} else {echo "&#8595;";}
+				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
 				echo $a->status->attributes()->inning;
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
-				echo "</td><td>";
-				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
+				//echo "</td><td>";
+				//echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
+				//echo "</td><td>";
+				//echo $a->attributes()->time," ET";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
+				echo "</td><td>";
+				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="Postponed") {
 				echo "</td><td>";
 				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
@@ -408,10 +424,24 @@ echo '<script  type="text/javascript">
 						echo "<tr class='headlinestabletr'><td id='headline",$iii,"' class='headlinestabletd' 
 						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
 								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td>
-								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>
+								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>";
+						/*echo "	<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
+									&#8595;
+								</td>
+								<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url2500K,"\");
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
+									&#8593;
+								</td>";*/
+						echo "	<td><table style='font-size:.47em'><tr><td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url2500K,"\");
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
+									&#x25B2;
+								</td></tr><tr>
 								<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>?</td>
-								</tr>";
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
+									&#x25BC;
+								</td></tr></table></td>";
+						echo "	</tr>";
 					}
 				} else {
 					//echo 'no game yet';
@@ -496,6 +526,37 @@ echo '</table></td>';
 // finish boxscore
 echo '</tr></table>';*/
 ?>
+
+
+<?php
+	// working on getting scoring plays here
+	$inning_Scores_url = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/inning/inning_Scores.xml";
+	//echo $rawboxscoreurl;
+	$inning_Scores_contents = file_get_contents($inning_Scores_url);
+	// Have to skip if game hasn't started yet
+	$inning_Scores_notavail= (substr($inning_Scores_contents,0,23) == "GameDay - 404 Not Found");
+	if ($inning_Scores_notavail) {
+		//echo "\nNo inning_Scores yet\n";
+		//echo $inning_Scores_url;
+	} else { // otherwise print the top boxscore	
+		echo '<table id="scoringplaystable" style="border:solid 1 red;" border="1">';
+		$inning_Scores = simplexml_load_string($inning_Scores_contents);
+		// loop through all scoring plays
+		echo '<tr><td>Inning</td><td>Away</td><td>Home</td><td>Scoring Play</td></tr>';
+		foreach($inning_Scores -> score as $inning_score) {
+			echo '<tr>';
+			echo '<td>' . $inning_score -> attributes() -> inn . '</td>';
+			echo '<td>' . $inning_score -> attributes() -> away . '</td>';
+			echo '<td>' . $inning_score -> attributes() -> home . '</td>';
+			echo '<td>' . $inning_score -> attributes() -> pbp . '</td>';
+			echo '</tr>';
+		}
+
+		echo '<table>';
+	}
+
+?>
+
 
 <?php
 	// Second try at boxscore, this time with more stats
