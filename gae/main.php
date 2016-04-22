@@ -631,5 +631,9 @@ echo '</tr></table>';*/
 	echo $filename;
 ?>
 
+<p>
+	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com">Honus1064@gmail.com</a>
+</p>
+
 </body>
 </html>
