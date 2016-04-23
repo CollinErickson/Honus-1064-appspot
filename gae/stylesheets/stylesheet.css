@@ -30,6 +30,8 @@ BODY  { background:  white; color: black }
 	border-top: 1px solid fuchsia;
 }
 
+.datemovearrow { cursor:pointer; }
+
 .scorestablegame { cursor:pointer; }  
 
 #headlinestable {cursor:pointer;}

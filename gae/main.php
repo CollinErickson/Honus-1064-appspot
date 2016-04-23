@@ -209,11 +209,11 @@ echo '<script  type="text/javascript">
 			<td><input type="text" id="datepicker"> </td>
 			<!--<td>&#8647; </td>
 			<td>&#8592;</td>  -->
-			<td onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-2);?>" >&#10096;</td>
-			<td onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-1);?>" >&#10092;</td>
-			<td onclick="<?php echo createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday);?>" >&#10072;</td>
-			<td onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+1);?>" >&#10093;</td>
-			<td onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+2);?>" >&#10097;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-2);?>" >&#10096;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-1);?>" >&#10092;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday);?>" >&#10072;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+1);?>" >&#10093;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+2);?>" >&#10097;</td>
 			<td><button onclick='goToDatePicked()'> Go! </button></td>
 		</tr></table>
 	</td>
@@ -293,7 +293,8 @@ echo '<script  type="text/javascript">
 	$iii = 0; // keep track of which game each is
 	foreach($datescoreboardpagexml as $a) {
 		//echo substr($a->attributes()-> away_code , 0,3);
-		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day) .'"><td class="scorestablegametd">';
+		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day) .'">
+		<td class="scorestablegametd">';
 			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
 			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
 				echo "</td><td>";
@@ -316,8 +317,10 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
+				if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
 				echo $a->status->attributes()->inning;
+				if ($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
 				//echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
@@ -325,8 +328,11 @@ echo '<script  type="text/javascript">
 				//echo $a->attributes()->time," ET";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
+				if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
 				echo "</td><td>";
-				echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
+			echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
+				echo">",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td"; if ($a->home_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};
+				echo ">",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="Postponed") {
 				echo "</td><td>";
 				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
@@ -624,16 +630,17 @@ echo '</tr></table>';*/
 ?>
 
 <?php 
-	echo "<br /><br />\nCurrent time: " . date("    D M j G:i:s T Y"); 
+	//echo "<br /><br />\nCurrent time: " . date("    D M j G:i:s T Y"); 
 	#$dp = date_parse("20130803");
 	#echo $dp['day'];
 	echo '<br />';
-	echo $filename;
+	//echo $filename;
+	echo '<div><a href="' . $filename . '"   target="_blank">' . $filename . '</a></div>';
 ?>
 
-<p>
+<div align="right">
 	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com">Honus1064@gmail.com</a>
-</p>
+</div>
 
 </body>
 </html>
