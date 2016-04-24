@@ -302,8 +302,14 @@ echo '<script  type="text/javascript">
 				$winning_pitcher_line = $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" . $a -> winning_pitcher ->attributes() -> losses . ")";
 				//echo $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" , $a -> winning_pitcher ->attributes() -> losses , ")";;
 				$losing_pitcher_line  = $a -> losing_pitcher  ->attributes() -> last . "(" . $a -> losing_pitcher  ->attributes() -> wins . "-" . $a -> losing_pitcher  ->attributes() -> losses . ")";
-				if( ((int)$a->linescore->r->attributes()->away) >  ((int)$a->linescore->r->attributes()->home)) {$away_pitcher_line = $winning_pitcher_line;$home_pitcher_line = $losing_pitcher_line;}
-				else {$home_pitcher_line = $winning_pitcher_line;$away_pitcher_line = $losing_pitcher_line;}
+				$away_gray = False; $home_gray = False;
+				if( ((int)$a->linescore->r->attributes()->away) >  ((int)$a->linescore->r->attributes()->home)) {
+					$away_pitcher_line = $winning_pitcher_line;$home_pitcher_line = $losing_pitcher_line;
+					$away_gray = ($a -> winning_pitcher ->attributes() -> last=="Gray");$home_gray = ($a -> losing_pitcher ->attributes() -> last=="Gray");
+				} else {
+					$home_pitcher_line = $winning_pitcher_line;$away_pitcher_line = $losing_pitcher_line;
+					$home_gray = ($a -> winning_pitcher ->attributes() -> last=="Gray");$away_gray = ($a -> losing_pitcher ->attributes() -> last=="Gray");
+				}
 				/*echo "<table><tr><td>", $a->linescore->r->attributes()->away, " ", $away_pitcher_line,"</td></tr>";
 				echo "<tr><td>",$a->linescore->r->attributes()->home, " ", $home_pitcher_line, "</td></tr></table>\n";
 				echo "</td><td>";
@@ -311,8 +317,8 @@ echo '<script  type="text/javascript">
 				echo "<table><tr><td>", $a->linescore->r->attributes()->away,"</td></tr>";
 				echo "<tr><td>",$a->linescore->r->attributes()->home, "</td></tr></table>\n";
 				echo "</td><td>";
-				echo "<table><tr><td>",  $away_pitcher_line,"</td></tr>";
-				echo "<tr><td>", $home_pitcher_line, "</td></tr></table>\n";
+				echo "<table><tr><td";if ($away_gray) {echo " style='color:gray;'";};echo ">",  $away_pitcher_line,"</td></tr>";
+				echo "<tr><td";if ($home_gray) {echo " style='color:gray;'";};echo ">", $home_pitcher_line, "</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge") {
 				echo "</td><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
@@ -330,7 +336,7 @@ echo '<script  type="text/javascript">
 				echo $a->attributes()->time," ET";
 				if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
 				echo "</td><td>";
-			echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
+				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
 				echo">",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td"; if ($a->home_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};
 				echo ">",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="Postponed") {
