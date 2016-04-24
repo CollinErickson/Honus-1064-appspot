@@ -337,8 +337,9 @@ echo '<script  type="text/javascript">
 				if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
 				echo "</td><td>";
 				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
-				echo">",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td"; if ($a->home_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};
-				echo ">",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
+				echo">",$a->away_probable_pitcher->attributes()->last_name,"(",$a->away_probable_pitcher->attributes()->wins,"-",$a->away_probable_pitcher->attributes()->losses,")</td></tr>";
+				echo "<tr><td"; if ($a->home_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};
+				echo ">",$a->home_probable_pitcher->attributes()->last_name,"(",$a->home_probable_pitcher->attributes()->wins,"-",$a->home_probable_pitcher->attributes()->losses,")</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="Postponed") {
 				echo "</td><td>";
 				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
