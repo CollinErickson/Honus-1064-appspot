@@ -319,13 +319,13 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				echo "<table><tr><td";if ($away_gray) {echo " style='color:gray;'";};echo ">",  $away_pitcher_line,"</td></tr>";
 				echo "<tr><td";if ($home_gray) {echo " style='color:gray;'";};echo ">", $home_pitcher_line, "</td></tr></table>\n";
-			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge") {
+			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
 				echo "</td><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
 				if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
-				echo $a->status->attributes()->inning;
+				echo $a->status->attributes()->inning;if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
 				if ($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
@@ -344,6 +344,13 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
 				echo "PP";
+				echo "</td><td>";
+				//echo "PP";
+				echo $a->status->attributes()->reason;
+			} elseif (($a->status->attributes()->status)=="notDelayed") { // MOVED THIS INTO In-Progress SINCE I WANT SCORE STILL AND INNING
+				echo "</td><td>";
+				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
+				echo "Delayed";
 				echo "</td><td>";
 				//echo "PP";
 				echo $a->status->attributes()->reason;
