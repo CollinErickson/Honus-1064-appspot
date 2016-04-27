@@ -321,12 +321,15 @@ echo '<script  type="text/javascript">
 				echo "<tr><td";if ($home_gray) {echo " style='color:gray;'";};echo ">", $home_pitcher_line, "</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
 				echo "</td><td>";
+				//echo "<table><tr><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
-				if ($a -> attributes() -> is_no_hiter){echo 'NH';}
+				//echo "</td><td>";
+				//if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
 				echo $a->status->attributes()->inning;if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
 				if ($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
+				//echo "</td></tr></table>";
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
 				//echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
@@ -596,7 +599,7 @@ echo '</tr></table>';*/
 		foreach(range(0,1) as $teamii) {
 			//echo ($boxscore -> batting[$teamii] -> attributes() -> team_flag == 'home');
 			// The following makes it do away team first, then home
-			$teamiii = +!(($boxscore -> batting[0] -> attributes() -> team_flag == 'home') == ($teamiii));
+			$teamiii = +!(($boxscore -> batting[0] -> attributes() -> team_flag == 'home') == ($teamii));
 			$teamiiiname = '';
 			if($boxscore -> batting[$teamiii] -> attributes() -> team_flag == 'home') {
 				$teamiiiname = $boxscore -> attributes() -> home_sname;
@@ -635,6 +638,68 @@ echo '</tr></table>';*/
 				echo '<td>' . $batter -> attributes() -> ops . '</td>';
 				echo '<td>' . $batter -> attributes() -> s_hr . '</td>';
 				echo '<td>' . $batter -> attributes() -> s_rbi . '</td>';
+				echo '</tr>';
+			}
+			echo '</table><td>';
+		}
+		echo '</tr></table>';
+	}
+?>
+
+
+<?php
+	// pitching data
+	//$boxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/boxscore.xml";
+	//echo $rawboxscoreurl;
+	//$boxscorecontents = file_get_contents($boxscoreurl);
+	// Have to skip if game hasn't started yet
+	///$boxscorenotavail= (substr($boxscorecontents,0,23) == "GameDay - 404 Not Found");
+	if ($boxscorenotavail) {
+		//echo "\nNo highlights yet";
+	} else { // otherwise print the top boxscore			
+		//$rawboxscore = simplexml_load_string($rawboxscorecontents);
+		//$boxscore = simplexml_load_string($boxscorecontents);
+		//echo $rawboxscore -> team[0] -> batting -> batter[0] -> attributes() -> sb;
+		
+		echo '<table><tr>';
+		foreach(range(0,1) as $teamii) {
+			//echo ($boxscore -> batting[$teamii] -> attributes() -> team_flag == 'home');
+			// The following makes it do away team first, then home
+			$teamiii = +!(($boxscore -> batting[0] -> attributes() -> team_flag == 'home') == ($teamii));
+			$teamiiiname = '';
+			if($boxscore -> batting[$teamiii] -> attributes() -> team_flag == 'home') {
+				$teamiiiname = $boxscore -> attributes() -> home_sname;
+			} else {
+				$teamiiiname = $boxscore -> attributes() -> away_sname;
+			}
+			//echo $teamiii;
+			echo '<td><table border="1" style="text-align:center">';
+			echo '<tr>';
+			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
+			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
+			echo '<td>' . $teamiiiname . '</td>';
+			echo '<td>' . 'POS' . '</td>';
+			echo '<td>' . 'OUT' . '</td>';
+			echo '<td>' . 'ER' . '</td>';
+			echo '<td>' . 'R' . '</td>';
+			echo '<td>' . 'H' . '</td>';
+			echo '<td>' . 'SO' . '</td>';
+			echo '<td>' . 'HR' . '</td>';
+			echo '<td>' . 'BB' . '</td>';
+			echo '<td>' . 'NP' . '</td>';
+			echo '</tr>';
+			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
+				echo '<tr>';
+				echo '<td>' . $pitcher -> attributes() -> name_display_first_last . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> pos . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> out . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> er . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> r . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> h . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> so . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> hr . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> bb . '</td>';
+				echo '<td>' . $pitcher -> attributes() -> np . '</td>';
 				echo '</tr>';
 			}
 			echo '</table><td>';
