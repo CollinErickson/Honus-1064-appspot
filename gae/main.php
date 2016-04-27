@@ -237,6 +237,7 @@ echo '<script  type="text/javascript">
 			} else { // otherwise print the top boxscore			
 				$rawboxscore = simplexml_load_string($rawboxscorecontents);
 				echo '<table><tr>';
+				echo '<td><table><tr><td>&nbsp;</td></tr><tr><td>' . strtoupper($away_code) . '</td></tr><tr><td>' . strtoupper($home_code) . '</td></tr></table></td>';
 				// loop through each inning and print the scores
 				foreach($rawboxscore -> linescore -> inning_line_score as $abc) {
 					echo '<td><table>';
