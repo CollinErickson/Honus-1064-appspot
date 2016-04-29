@@ -219,8 +219,8 @@ echo '<script  type="text/javascript">
 	</td>
 	<td width="20px"></td>
 	<td><h4>
-		<?php  $awayteamname . " vs " . $hometeamname ?> 
-		<?php echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;'>" . $awayteamname . " vs " . $hometeamname . "</a>"?>
+		<?php  //$awayteamname . " vs " . $hometeamname ?> 
+		<?php echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:aqua;'>" . $awayteamname . " vs " . $hometeamname . "</a>"?>
 		
 	</h4></td>
 	<td>
@@ -236,12 +236,12 @@ echo '<script  type="text/javascript">
 				//echo "\nNo highlights yet";
 			} else { // otherwise print the top boxscore			
 				$rawboxscore = simplexml_load_string($rawboxscorecontents);
-				echo '<table><tr>';
+				echo '<table id="toplinescore"><tr>';
 				echo '<td><table><tr><td>&nbsp;</td></tr><tr><td>' . strtoupper($away_code) . '</td></tr><tr><td>' . strtoupper($home_code) . '</td></tr></table></td>';
 				// loop through each inning and print the scores
 				foreach($rawboxscore -> linescore -> inning_line_score as $abc) {
 					echo '<td><table>';
-					echo '<tr><td style="border-bottom:solid #ff0000">' . $abc -> attributes() -> inning . '</td></tr>';
+					echo '<tr><td style="border-bottom:solid #80ffff">' . $abc -> attributes() -> inning . '</td></tr>';
 					echo '<tr><td>';
 					if (strlen($abc -> attributes() -> away) > 0) {
 						echo $abc -> attributes() -> away;
@@ -259,18 +259,18 @@ echo '<script  type="text/javascript">
 					echo '</table></td>';
 				}
 				// and summary stats
-				echo '<td><table style="border-left:thick double #ff0000">';
-				echo '<tr><td style="border-bottom:solid #ff0000">R</td></tr>';
+				echo '<td><table style="border-left:thick double #80ffff">';
+				echo '<tr><td style="border-bottom:solid #80ffff">R</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_runs . '</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_runs . '</td></tr>';
 				echo '</table></td>';
 				echo '<td><table>';
-				echo '<tr><td style="border-bottom:solid #ff0000">H</td></tr>';
+				echo '<tr><td style="border-bottom:solid #80ffff">H</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_hits . '</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_hits . '</td></tr>';
 				echo '</table></td>';
 				echo '<td><table>';
-				echo '<tr><td style="border-bottom:solid #ff0000">E</td></tr>';
+				echo '<tr><td style="border-bottom:solid #80ffff">E</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_errors. '</td></tr>';
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
 				echo '</table></td>';
@@ -322,15 +322,20 @@ echo '<script  type="text/javascript">
 				echo "<tr><td";if ($home_gray) {echo " style='color:gray;'";};echo ">", $home_pitcher_line, "</td></tr></table>\n";
 			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
 				echo "</td><td>";
-				//echo "<table><tr><td>";
+				  echo "<table><tr><td>";
 				echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>\n";
 				echo "</td><td>";
-				//echo "</td><td>";
+				  echo "</td><td>";
 				//if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
-				echo $a->status->attributes()->inning;if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
+				echo $a->status->attributes()->inning;
+				$outs = $a->status->attributes()-> o; if($outs == '0') {} else if($outs == '1'){echo '<b>.</b>';} else if($outs == '2'){echo '<b>:</b>';} else if ($outs=='3'){echo '|';} else {echo $outs;};
+				if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
 				if ($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
-				//echo "</td></tr></table>";
+				  echo "</td></tr></table><td>";
+					echo "<table><tr><td>P:".$a -> pitcher -> attributes() -> last . "</td></tr>";
+					echo "<tr><td>B:". $a -> batter -> attributes() -> last  . "</td></tr></table>";
+					echo "</td>";
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
 				//echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
@@ -445,7 +450,7 @@ echo '<script  type="text/javascript">
 						$url2500K = str_replace('1200K','2500K',$url1200K);
 						$url1800K = str_replace('1200K','1800K',$url1200K);
 						$url = $url1800K; // This sets the quality
-						echo "<tr class='headlinestabletr'><td id='headline",$iii,"' class='headlinestabletd' 
+						echo "<tr class='headlinestabletr' id='headlinetr'",$iii,"><td id='headline",$iii,"' class='headlinestabletd' 
 						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
 								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td>
 								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>";

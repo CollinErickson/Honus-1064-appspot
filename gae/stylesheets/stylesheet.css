@@ -1,4 +1,7 @@
-BODY  { background:  white; color: black }
+BODY  { 
+	background:  black; 
+	color: white 
+}
 
 table {
     border-collapse: collapse;
@@ -13,12 +16,12 @@ table {
 
 #scorestable {
 	color: black;
-	background: orange;
+	background: #80ffff;
 	font-size: small;
     border: 5px solid black;
 }
 .scorestablegame {
-    border: 5px solid red;
+    border: 2px solid black;
 	/*color: maroon;*/
 }
 	
@@ -27,11 +30,13 @@ table {
 }
 
 .headlinestabletr {
-	border: 2px solid blue;
+	border: 2px solid black;
+	background-color:#80ffff;
 }
 
 .headlinestabletd {
 	border-top: 1px solid fuchsia;
+	
 }
 
 .datemovearrow { cursor:pointer; }
@@ -40,3 +45,4 @@ table {
 
 #headlinestable {cursor:pointer;}
 
+#toplinescore  {border: 0px solid aqua;}
