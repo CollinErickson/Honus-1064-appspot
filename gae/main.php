@@ -300,9 +300,9 @@ echo '<script  type="text/javascript">
 			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
 				echo "</td><td>";
 				$winning_pitcher_line='-';$losing_pitcher_line='-';
-				$winning_pitcher_line = $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" . $a -> winning_pitcher ->attributes() -> losses . ")";
+				$winning_pitcher_line = "W:" . $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" . $a -> winning_pitcher ->attributes() -> losses . ")";
 				//echo $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" , $a -> winning_pitcher ->attributes() -> losses , ")";;
-				$losing_pitcher_line  = $a -> losing_pitcher  ->attributes() -> last . "(" . $a -> losing_pitcher  ->attributes() -> wins . "-" . $a -> losing_pitcher  ->attributes() -> losses . ")";
+				$losing_pitcher_line  = "L:" . $a -> losing_pitcher  ->attributes() -> last . "(" . $a -> losing_pitcher  ->attributes() -> wins . "-" . $a -> losing_pitcher  ->attributes() -> losses . ")";
 				$away_gray = False; $home_gray = False;
 				if( ((int)$a->linescore->r->attributes()->away) >  ((int)$a->linescore->r->attributes()->home)) {
 					$away_pitcher_line = $winning_pitcher_line;$home_pitcher_line = $losing_pitcher_line;
@@ -613,7 +613,7 @@ echo '</tr></table>';*/
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
 			//echo $teamiii;
-			echo '<td><table style="border:3px solid magenta" style="text-align:center">';
+			echo '<td  style="vertical-align:top;"><table style="border:3px solid magenta" style="text-align:center">';
 			echo '<tr>';
 			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
@@ -681,7 +681,7 @@ echo '</tr></table>';*/
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
 			//echo $teamiii;
-			echo '<td><table  style="border:3px solid magenta" style="text-align:center">';
+			echo '<td style="vertical-align:top;"><table  style="border:3px solid magenta" style="text-align:center">';
 			echo '<tr>';
 			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
