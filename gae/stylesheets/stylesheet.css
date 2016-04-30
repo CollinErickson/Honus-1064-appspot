@@ -46,3 +46,5 @@ table {
 #headlinestable {cursor:pointer;}
 
 #toplinescore  {border: 0px solid aqua;}
+
+.fullboxscoretd {border: 1px solid magenta;}

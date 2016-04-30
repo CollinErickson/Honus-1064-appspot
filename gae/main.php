@@ -209,11 +209,11 @@ echo '<script  type="text/javascript">
 			<td><input type="text" id="datepicker"> </td>
 			<!--<td>&#8647; </td>
 			<td>&#8592;</td>  -->
-			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-2);?>" >&#10096;</td>
-			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-1);?>" >&#10092;</td>
-			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday);?>" >&#10072;</td>
-			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+1);?>" >&#10093;</td>
-			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+2);?>" >&#10097;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-2);?>" >&#10092;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-1);?>" >&#10096;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday);?>" >&#10074;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+1);?>" >&#10097;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+2);?>" >&#10093;</td>
 			<td><button onclick='goToDatePicked()'> Go! </button></td>
 		</tr></table>
 	</td>
@@ -329,7 +329,7 @@ echo '<script  type="text/javascript">
 				//if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
 				echo $a->status->attributes()->inning;
-				$outs = $a->status->attributes()-> o; if($outs == '0') {} else if($outs == '1'){echo '<b>.</b>';} else if($outs == '2'){echo '<b>:</b>';} else if ($outs=='3'){echo '|';} else {echo $outs;};
+				$outs = $a->status->attributes()-> o; if($outs == '0') {} else if($outs == '1'){echo '<b>&#0149;</b>';} else if($outs == '2'){echo '<b>:</b>';} else if ($outs=='3'){echo '&#10073;';} else {echo $outs;};
 				if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
 				if ($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
 				  echo "</td></tr></table><td>";
@@ -568,16 +568,16 @@ echo '</tr></table>';*/
 		//echo "\nNo inning_Scores yet\n";
 		//echo $inning_Scores_url;
 	} else { // otherwise print the top boxscore	
-		echo '<table id="scoringplaystable" style="border:solid 1 red;" border="1">';
+		echo '<table id="scoringplaystable" style="border:3px solid magenta;" border="1">';
 		$inning_Scores = simplexml_load_string($inning_Scores_contents);
 		// loop through all scoring plays
-		echo '<tr><td>Inning</td><td>Away</td><td>Home</td><td>Scoring Play</td></tr>';
+		echo '<tr><td class="fullboxscoretd">Inning</td><td class="fullboxscoretd">Away</td><td class="fullboxscoretd">Home</td><td class="fullboxscoretd">Scoring Play</td></tr>';
 		foreach($inning_Scores -> score as $inning_score) {
 			echo '<tr>';
-			echo '<td>' . $inning_score -> attributes() -> inn . '</td>';
-			echo '<td>' . $inning_score -> attributes() -> away . '</td>';
-			echo '<td>' . $inning_score -> attributes() -> home . '</td>';
-			echo '<td>' . $inning_score -> attributes() -> pbp . '</td>';
+			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> inn . '</td>';
+			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> away . '</td>';
+			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> home . '</td>';
+			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> pbp . '</td>';
 			echo '</tr>';
 		}
 
@@ -613,42 +613,43 @@ echo '</tr></table>';*/
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
 			//echo $teamiii;
-			echo '<td><table border="1" style="text-align:center">';
+			echo '<td><table style="border:3px solid magenta" style="text-align:center">';
 			echo '<tr>';
 			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
-			echo '<td>' . $teamiiiname . '</td>';
-			echo '<td>' . 'POS' . '</td>';
-			echo '<td>' . 'H' . '</td>';
-			echo '<td>' . 'BB' . '</td>';
-			echo '<td>' . 'HR' . '</td>';
-			echo '<td>' . 'RBI' . '</td>';
-			echo '<td>' . 'AB' . '</td>';
-			echo '<td>' . 'AVG' . '</td>';
-			echo '<td>' . 'OBP' . '</td>';
-			echo '<td>' . 'OPS' . '</td>';
-			echo '<td>' . 'HR' . '</td>';
-			echo '<td>' . 'RBI' . '</td>';
+			echo '<td class="fullboxscoretd">' . $teamiiiname . '</td>';
+			echo '<td class="fullboxscoretd">' . 'POS' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'H' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'BB' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'RBI' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'AB' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'AVG' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'OBP' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'OPS' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'RBI' . '</td>';
 			echo '</tr>';
 			foreach($boxscore -> batting[$teamiii] -> batter as $batter) {
 				echo '<tr>';
-				echo '<td>' . $batter -> attributes() -> name_display_first_last . '</td>';
-				echo '<td>' . $batter -> attributes() -> pos . '</td>';
-				echo '<td>' . $batter -> attributes() -> h . '</td>';
-				echo '<td>' . $batter -> attributes() -> bb . '</td>';
-				echo '<td>' . $batter -> attributes() -> hr . '</td>';
-				echo '<td>' . $batter -> attributes() -> rbi . '</td>';
-				echo '<td>' . $batter -> attributes() -> ab . '</td>';
-				echo '<td>' . $batter -> attributes() -> avg . '</td>';
-				echo '<td>' . $batter -> attributes() -> obp . '</td>';
-				echo '<td>' . $batter -> attributes() -> ops . '</td>';
-				echo '<td>' . $batter -> attributes() -> s_hr . '</td>';
-				echo '<td>' . $batter -> attributes() -> s_rbi . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> name_display_first_last . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> pos . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> h . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> bb . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> hr . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> rbi . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ab . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> avg . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> obp . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ops . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> s_hr . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> s_rbi . '</td>';
 				echo '</tr>';
 			}
 			echo '</table><td>';
 		}
-		echo '</tr></table>';
+		echo '</tr>';
+		//echo '</table>';  # combining pitching and batting to same table
 	}
 ?>
 
@@ -667,7 +668,8 @@ echo '</tr></table>';*/
 		//$boxscore = simplexml_load_string($boxscorecontents);
 		//echo $rawboxscore -> team[0] -> batting -> batter[0] -> attributes() -> sb;
 		
-		echo '<table><tr>';
+		//echo '<table>'; # combining pitching and batting to same table
+		echo '<tr>';
 		foreach(range(0,1) as $teamii) {
 			//echo ($boxscore -> batting[$teamii] -> attributes() -> team_flag == 'home');
 			// The following makes it do away team first, then home
@@ -679,38 +681,39 @@ echo '</tr></table>';*/
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
 			//echo $teamiii;
-			echo '<td><table border="1" style="text-align:center">';
+			echo '<td><table  style="border:3px solid magenta" style="text-align:center">';
 			echo '<tr>';
 			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
-			echo '<td>' . $teamiiiname . '</td>';
-			echo '<td>' . 'POS' . '</td>';
-			echo '<td>' . 'OUT' . '</td>';
-			echo '<td>' . 'ER' . '</td>';
-			echo '<td>' . 'R' . '</td>';
-			echo '<td>' . 'H' . '</td>';
-			echo '<td>' . 'SO' . '</td>';
-			echo '<td>' . 'HR' . '</td>';
-			echo '<td>' . 'BB' . '</td>';
-			echo '<td>' . 'NP' . '</td>';
+			echo '<td class="fullboxscoretd">' . $teamiiiname . '</td>';
+			echo '<td class="fullboxscoretd">' . 'POS' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'OUT' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'ER' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'R' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'H' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'SO' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'BB' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'NP' . '</td>';
 			echo '</tr>';
 			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
 				echo '<tr>';
-				echo '<td>' . $pitcher -> attributes() -> name_display_first_last . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> pos . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> out . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> er . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> r . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> h . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> so . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> hr . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> bb . '</td>';
-				echo '<td>' . $pitcher -> attributes() -> np . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> name_display_first_last . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> pos . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> out . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> er . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> r . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> h . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> so . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> hr . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> bb . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> np . '</td>';
 				echo '</tr>';
 			}
 			echo '</table><td>';
 		}
-		echo '</tr></table>';
+		echo '</tr>';
+		echo '</table>';
 	}
 ?>
 
