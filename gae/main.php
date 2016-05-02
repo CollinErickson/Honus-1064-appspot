@@ -139,6 +139,10 @@ $teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','
 	$datescoreboardpagexml = simplexml_load_string($datescoreboardpage);
 
 	$selectedgamenumber = 0;
+	$hometeam = $datescoreboardpagexml -> game[0]->attributes()-> home_code;
+	$awayteam = $datescoreboardpagexml -> game[0]->attributes()-> away_code;
+	$hometeamname = $datescoreboardpagexml -> game[0]->attributes()-> home_team_name;
+	$awayteamname = $datescoreboardpagexml -> game[0]->attributes()-> away_team_name;
 	$iii = 0;
 	foreach($datescoreboardpagexml as $a) {
 		//if (  (strtoupper($a->attributes()-> home_code) == strtoupper($team)) ) {echo "FOUND IThome!";echo $iii;}
@@ -188,7 +192,7 @@ echo '<script  type="text/javascript">
 
 <table id="toptable"><tr>
 	<td>
-		<h3 align='center' onclick="<?php echo createGameOnclickURLForJS(3,2013,08,12);?>" >Honus<h1>
+		<h3 align='center' style='color:magenta;'>Honus<h1>
 	</td>
 	<td>
 		Team:
