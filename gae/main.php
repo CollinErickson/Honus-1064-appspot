@@ -351,7 +351,7 @@ echo '<script  type="text/javascript">
 				//echo $a->attributes()->time," ET";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
-				if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
+				if( $a -> game_media -> attributes() -> free) {if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";};}
 				echo "</td><td>";
 				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
 				echo">",$a->away_probable_pitcher->attributes()->last_name,"(",$a->away_probable_pitcher->attributes()->wins,"-",$a->away_probable_pitcher->attributes()->losses,")</td></tr>";
