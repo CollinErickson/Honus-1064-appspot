@@ -224,7 +224,11 @@ echo '<script  type="text/javascript">
 	<td width="20px"></td>
 	<td><h4>
 		<?php  //$awayteamname . " vs " . $hometeamname ?> 
-		<?php echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:aqua;'>" . $awayteamname . " vs " . $hometeamname . "</a>"?>
+		<?php 
+			echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:aqua;'>" . 
+				$awayteamname . " (". $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> away_win . '-' . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> away_loss . ')' . 
+				" vs " . $hometeamname . " (" . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> home_win . "-" . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> home_loss . ")" .  "</a>";
+		?>
 		
 	</h4></td>
 	<td>
