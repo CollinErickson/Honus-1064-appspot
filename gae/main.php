@@ -336,13 +336,22 @@ echo '<script  type="text/javascript">
 				  echo "</td><td>";
 				//if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
-				echo $a->status->attributes()->inning;
+				echo $a->status->attributes()->inning; 
 				$outs = $a->status->attributes()-> o; if($outs == '0') {} else if($outs == '1'){echo '<b>&#0149;</b>';} else if($outs == '2'){echo '<b>:</b>';} else if ($outs=='3'){echo '&#10073;';} else {echo $outs;};
 				if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
-				if ($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";}
+				if ($a -> game_media -> media -> attributes() -> free == "ALL") {
+					echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' style='text-decoration: none'>FGOD</a>";
+				} else {
+					// next four lines get link to MLB.tv
+					$mlbtvlink = $a -> links -> attributes() -> mlbtv;
+					$mlbtvlink_number = explode("'", (string)$mlbtvlink)[1];
+					$mlbtvlink_url = "http://m.mlb.com/tv/e" . $mlbtvlink_number;
+					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>&#x2297;</a>";
+				}
 				  echo "</td></tr></table><td>";
 					echo "<table><tr><td>P:".$a -> pitcher -> attributes() -> last . "</td></tr>";
-					echo "<tr><td>B:". $a -> batter -> attributes() -> last  . "</td></tr></table>";
+					echo "<tr><td>B:". $a -> batter -> attributes() -> last  . "</td>";
+					echo "</tr></table>";
 					echo "</td>";
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
