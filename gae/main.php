@@ -573,6 +573,24 @@ echo '</table></td>';
 echo '</tr></table>';*/
 ?>
 
+<?php
+	// adding table for current pitcher and batter and ondeck and inhole
+	$a = $datescoreboardpagexml -> game[$selectedgamenumber];
+	if (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
+		//echo "in progress<br>";
+		echo "<table><tr><td>";
+		echo "Pitching: " . $a -> pitcher -> attributes() -> name_display_roster . " - " . $a -> pitcher -> attributes() -> ip . " IP, " . $a -> pitcher -> attributes() -> er . 
+			" ER, " . $a -> pitcher -> attributes() -> wins . "-" . $a -> pitcher -> attributes() -> losses . ", " . $a -> pitcher -> attributes() -> era . " ERA<br />";
+		echo "Batting: " . $a -> batter -> attributes() -> name_display_roster . " - " . $a -> batter -> attributes() -> h  . "/" . $a -> batter -> attributes() -> ab  . " " . $a -> batter -> attributes() -> avg  . 
+			"/" . $a -> batter -> attributes() -> obp . "/" . $a -> batter -> attributes() -> slg . ", " . $a -> batter -> attributes() -> hr . " HR, " . $a -> batter -> attributes() -> rbi . " RBI<br />";
+		echo "On deck: " . $a -> ondeck -> attributes() -> name_display_roster . " - " . $a -> ondeck -> attributes() -> h  . "/" . $a -> ondeck -> attributes() -> ab  . " " . $a -> ondeck -> attributes() -> avg  . 
+			"/" . $a -> ondeck -> attributes() -> obp . "/" . $a -> ondeck -> attributes() -> slg . ", " . $a -> ondeck -> attributes() -> hr . " HR, " . $a -> ondeck -> attributes() -> rbi . " RBI<br />";
+		echo "In hole: " . $a -> inhole -> attributes() -> name_display_roster . " - " . $a -> inhole -> attributes() -> h  . "/" . $a -> inhole -> attributes() -> ab  . " " . $a -> inhole -> attributes() -> avg  . 
+			"/" . $a -> inhole -> attributes() -> obp . "/" . $a -> inhole -> attributes() -> slg . ", " . $a -> inhole -> attributes() -> hr . " HR, " . $a -> inhole -> attributes() -> rbi . " RBI<br />";
+		echo "</td></tr></table>";
+	}
+?>
+
 
 <?php
 	// working on getting scoring plays here
