@@ -579,6 +579,8 @@ echo '</tr></table>';*/
 	if (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
 		//echo "in progress<br>";
 		echo "<table><tr><td>";
+		echo "Last play: " . $a -> pbp -> attributes() -> last;
+		echo "</td></tr><tr><td>";
 		echo "Pitching: " . $a -> pitcher -> attributes() -> name_display_roster . " - " . $a -> pitcher -> attributes() -> ip . " IP, " . $a -> pitcher -> attributes() -> er . 
 			" ER, " . $a -> pitcher -> attributes() -> wins . "-" . $a -> pitcher -> attributes() -> losses . ", " . $a -> pitcher -> attributes() -> era . " ERA<br />";
 		echo "Batting: " . $a -> batter -> attributes() -> name_display_roster . " - " . $a -> batter -> attributes() -> h  . "/" . $a -> batter -> attributes() -> ab  . " " . $a -> batter -> attributes() -> avg  . 
