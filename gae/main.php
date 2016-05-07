@@ -26,7 +26,7 @@
 			$away_code = $datescoreboardpagexml -> game[0] -> attributes() -> away_code;
 		$home_code = $datescoreboardpagexml -> game[0] -> attributes() -> home_code;
 		$selectedgamemasterscoreboard = $datescoreboardpagexml -> game[0];
-		$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/highlights.xml";
+		$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/media/highlights.xml";
 		$headlines = array();
 		$blurbs = array();
 		$urls = array();
@@ -45,10 +45,12 @@
 	
 	}
 	
-	function createGameOnclickURLForJS ( $gototeam , $gotoyear , $gotomonth , $gotoday) {
+	function createGameOnclickURLForJS ( $gototeam , $gotoyear , $gotomonth , $gotoday, $gotonbr) {
+		if((int)$gotonbr == 1) {$gotonbr=null;};
 		$gotodata = array (
 			'team' => $gototeam,
-			'date' => $gotoyear . $gotomonth . $gotoday
+			'date' => $gotoyear . $gotomonth . $gotoday,
+			'dbh'  => $gotonbr
 			//'year' => $gotoyear,
 			//'month' => $gotomonth,
 			//'day' => $gotoday			
@@ -125,6 +127,11 @@ $teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','
 		$GETdata['team'] = $_GET['team'];
 		$team =  $_GET['team'];
 	}
+	$dbh = 1;
+	if( isset($_GET['dbh']) ){
+		$GETdata['dbh'] = $_GET['dbh'];
+		$dbh =  $_GET['dbh'];
+	}
 	// moved this chunk above select team box to set default
 //echo date('Ymd', strtotime('1 day', strtotime("08/01/2015"))); 
 //echo createGameOnclickURLForJSRelative('COL',2015,8,1,-1);
@@ -143,11 +150,13 @@ $teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','
 	$awayteam = $datescoreboardpagexml -> game[0]->attributes()-> away_code;
 	$hometeamname = $datescoreboardpagexml -> game[0]->attributes()-> home_team_name;
 	$awayteamname = $datescoreboardpagexml -> game[0]->attributes()-> away_team_name;
+	$selectedgamenbr = $datescoreboardpagexml -> game[0]->attributes()-> game_nbr;
 	$iii = 0;
 	foreach($datescoreboardpagexml as $a) {
 		//if (  (strtoupper($a->attributes()-> home_code) == strtoupper($team)) ) {echo "FOUND IThome!";echo $iii;}
 		//if (  (strtoupper($a->attributes()-> away_code) == strtoupper($team)) ) {echo "FOUND ITaway!";echo $iii;}
-		if (  (strtoupper($a->attributes()-> away_code) == strtoupper($team)) || (strtoupper($a->attributes()-> home_code) == strtoupper($team)) ) {
+		echo $a -> attributes() -> nbr;
+		if (  ((strtoupper($a->attributes()-> away_code) == strtoupper($team)) || (strtoupper($a->attributes()-> home_code) == strtoupper($team))) && ((int)$a->attributes()-> game_nbr <= (int)$dbh) ) {
 			//echo "FOUND ITaway!";
 			//echo $iii;
 			$selectedgamenumber = $iii;
@@ -155,6 +164,7 @@ $teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','
 			$awayteam = $a->attributes()-> away_code;
 			$hometeamname = $a->attributes()-> home_team_name;
 			$awayteamname = $a->attributes()-> away_team_name;
+			$selectedgamenbr = $a->attributes()-> game_nbr;
 		}
 		//echo  strtoupper($a->attributes()-> home_code); echo $team;
 		$iii = $iii + 1;
@@ -215,7 +225,7 @@ echo '<script  type="text/javascript">
 			<td>&#8592;</td>  -->
 			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-2);?>" >&#10092;</td>
 			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,-1);?>" >&#10096;</td>
-			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday);?>" >&#10074;</td>
+			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday,'1');?>" >&#10074;</td>
 			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+1);?>" >&#10097;</td>
 			<td class="datemovearrow" onclick="<?php echo createGameOnclickURLForJSRelative($team,$year,$month,$day,+2);?>" >&#10093;</td>
 			<td><button onclick='goToDatePicked()'> Go! </button></td>
@@ -235,7 +245,7 @@ echo '<script  type="text/javascript">
 		<?php
 			// Box score at top right
 			
-			$rawboxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/rawboxscore.xml";
+			$rawboxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/rawboxscore.xml";
 			//echo $rawboxscoreurl;
 			$rawboxscorecontents = file_get_contents($rawboxscoreurl);
 			// Have to skip if game hasn't started yet
@@ -302,7 +312,7 @@ echo '<script  type="text/javascript">
 	$iii = 0; // keep track of which game each is
 	foreach($datescoreboardpagexml as $a) {
 		//echo substr($a->attributes()-> away_code , 0,3);
-		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day) .'">
+		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day, (int)($a->attributes()->game_nbr)) .'">
 		<td class="scorestablegametd">';
 			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
 			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
@@ -413,7 +423,7 @@ echo '<script  type="text/javascript">
 	#}
 	#$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/highlights{$addif2016}.xml";
 	# Switching to get highlights from mobile.xml
-	$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/media/mobile.xml";
+	$filename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/media/mobile.xml";
 	//echo $filename;
 	$headlines = array();
 	$blurbs = array();
@@ -507,7 +517,7 @@ echo '<script  type="text/javascript">
 					
 					// trying something new here
 					
-					$novideofilename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/atv_preview_noscores.xml";
+					$novideofilename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/atv_preview_noscores.xml";
 					//echo $novideofilename;
 					$novideohomepage = file_get_contents($novideofilename);
 					$novideoxml = simplexml_load_string($novideohomepage);
@@ -596,7 +606,7 @@ echo '</tr></table>';*/
 
 <?php
 	// working on getting scoring plays here
-	$inning_Scores_url = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/inning/inning_Scores.xml";
+	$inning_Scores_url = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/inning/inning_Scores.xml";
 	//echo $rawboxscoreurl;
 	$inning_Scores_contents = file_get_contents($inning_Scores_url);
 	// Have to skip if game hasn't started yet
@@ -626,7 +636,7 @@ echo '</tr></table>';*/
 
 <?php
 	// Second try at boxscore, this time with more stats
-	$boxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/boxscore.xml";
+	$boxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/boxscore.xml";
 	//echo $rawboxscoreurl;
 	$boxscorecontents = file_get_contents($boxscoreurl);
 	// Have to skip if game hasn't started yet
