@@ -333,8 +333,12 @@ echo '<script  type="text/javascript">
 				echo "<tr><td>",$a->linescore->r->attributes()->home, " ", $home_pitcher_line, "</td></tr></table>\n";
 				echo "</td><td>";
 				echo "F";*/
-				echo "<table><tr><td>", $a->linescore->r->attributes()->away,"</td></tr>";
-				echo "<tr><td>",$a->linescore->r->attributes()->home, "</td></tr></table>\n";
+				echo "<table><tr><td>", $a->linescore->r->attributes()->away,"</td>";
+				if ($a -> status -> attributes() -> inning != "9") {echo "<td rowspan='2'>" . /*$a -> status -> attributes() -> ind . */ "/" . $a -> status -> attributes() -> inning . "</td>";}
+				else {echo "<td rowspan='2' style='text-align:center;'>" . /*$a -> status -> attributes() -> ind .*/ "</td>";}
+				echo "</tr>";
+				echo "<tr><td>",$a->linescore->r->attributes()->home, "</td>";
+				echo "</tr></table>\n";
 				echo "</td><td>";
 				echo "<table><tr><td";if ($away_gray) {echo " style='color:gray;'";};echo ">",  $away_pitcher_line,"</td></tr>";
 				echo "<tr><td";if ($home_gray) {echo " style='color:gray;'";};echo ">", $home_pitcher_line, "</td></tr></table>\n";
