@@ -235,7 +235,7 @@ echo '<script  type="text/javascript">
 	<td><h4>
 		<?php  //$awayteamname . " vs " . $hometeamname ?> 
 		<?php 
-			echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:aqua;'>" . 
+			echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:#b3ffff;'>" . 
 				$awayteamname . " (". $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> away_win . '-' . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> away_loss . ')' . 
 				" vs " . $hometeamname . " (" . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> home_win . "-" . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> home_loss . ")" .  "</a>";
 		?>
@@ -293,6 +293,8 @@ echo '<script  type="text/javascript">
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
 				echo '</table></td>';
 				// finish boxscore
+				$mlbgamedayurl = "http://mlb.mlb.com/mlb/gameday/index.jsp?gid={$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}";
+				echo '<td><a style="color:inherit" target="_blank" href="'.$mlbgamedayurl.'">Gameday</a></td>'; //{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}
 				echo '</tr></table>';
 			}
 		?>
@@ -360,7 +362,7 @@ echo '<script  type="text/javascript">
 					$mlbtvlink = $a -> links -> attributes() -> mlbtv;
 					$mlbtvlink_number = explode("'", (string)$mlbtvlink)[1];
 					$mlbtvlink_url = "http://m.mlb.com/tv/e" . $mlbtvlink_number;
-					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>&#x2297;</a>";
+					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>&#x1F4FA;</a>";
 				}
 				  echo "</td></tr></table><td>";
 					echo "<table><tr><td>P:".$a -> pitcher -> attributes() -> last . "</td></tr>";
@@ -374,6 +376,15 @@ echo '<script  type="text/javascript">
 				//echo $a->attributes()->time," ET";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
+				if( $a -> game_media -> attributes() -> free) {if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";};}
+				echo "</td><td>";
+				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
+				echo">",$a->away_probable_pitcher->attributes()->last_name,"(",$a->away_probable_pitcher->attributes()->wins,"-",$a->away_probable_pitcher->attributes()->losses,")</td></tr>";
+				echo "<tr><td"; if ($a->home_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};
+				echo ">",$a->home_probable_pitcher->attributes()->last_name,"(",$a->home_probable_pitcher->attributes()->wins,"-",$a->home_probable_pitcher->attributes()->losses,")</td></tr></table>\n";
+			} elseif (($a->status->attributes()->status)=="Delayed Start") {
+				echo "</td><td>";
+				echo "Delayed<br>Start";
 				if( $a -> game_media -> attributes() -> free) {if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";};}
 				echo "</td><td>";
 				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
@@ -406,7 +417,7 @@ echo '<script  type="text/javascript">
 	//echo "<script>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').setAttribute('style', 'font-weight:bold')</script>";
 	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style['font-weight']='bold'</script>";
 	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.color='black'</script>\n";
-	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.background='#df80ff'</script>";
+	echo "<script type='text/javascript'>document.getElementById('datescoreboardgamenumber" . $selectedgamenumber . "').style.background='#e0ccff'</script>";
 ?>
 
 <?php	
@@ -483,7 +494,7 @@ echo '<script  type="text/javascript">
 						$url = $url1800K; // This sets the quality
 						echo "<tr class='headlinestabletr' id='headlinetr'",$iii,"><td id='headline",$iii,"' class='headlinestabletd' 
 						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
-								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>",$headline,"</td>
+								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>",$headline,"</td>
 								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>";
 						/*echo "	<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
 									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
@@ -494,11 +505,11 @@ echo '<script  type="text/javascript">
 									&#8593;
 								</td>";*/
 						echo "	<td><table style='font-size:.47em'><tr><td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url2500K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>
 									&#x25B2;
 								</td></tr><tr>
 								<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
+									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>
 									&#x25BC;
 								</td></tr></table></td>";
 						echo "	</tr>";
@@ -619,7 +630,7 @@ echo '</tr></table>';*/
 		//echo "\nNo inning_Scores yet\n";
 		//echo $inning_Scores_url;
 	} else { // otherwise print the top boxscore	
-		echo '<table id="scoringplaystable" style="border:3px solid magenta;" border="1">';
+		echo '<table id="scoringplaystable" >';
 		$inning_Scores = simplexml_load_string($inning_Scores_contents);
 		// loop through all scoring plays
 		echo '<tr><td class="fullboxscoretd">Inning</td><td class="fullboxscoretd">Away</td><td class="fullboxscoretd">Home</td><td class="fullboxscoretd">Scoring Play</td></tr>';
@@ -664,7 +675,7 @@ echo '</tr></table>';*/
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
 			//echo $teamiii;
-			echo '<td  style="vertical-align:top;"><table style="border:3px solid magenta" style="text-align:center">';
+			echo '<td  style="vertical-align:top;"><table class="fullboxscoretables" >';
 			echo '<tr>';
 			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
@@ -683,7 +694,7 @@ echo '</tr></table>';*/
 			echo '</tr>';
 			foreach($boxscore -> batting[$teamiii] -> batter as $batter) {
 				echo '<tr>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> name_display_first_last . '</td>';
+				echo '<td class="fullboxscoretd"><a class="playernamelink"  target="_blank" href="http://m.mlb.com/gameday/player/'. $batter -> attributes() -> id .'">' . $batter -> attributes() -> name_display_first_last . '</a></td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> pos . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> h . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> bb . '</td>';
@@ -732,7 +743,7 @@ echo '</tr></table>';*/
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
 			//echo $teamiii;
-			echo '<td style="vertical-align:top;"><table  style="border:3px solid magenta" style="text-align:center">';
+			echo '<td style="vertical-align:top;"><table class="fullboxscoretables">';
 			echo '<tr>';
 			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
@@ -749,7 +760,7 @@ echo '</tr></table>';*/
 			echo '</tr>';
 			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
 				echo '<tr>';
-				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> name_display_first_last . '</td>';
+				echo '<td class="fullboxscoretd"><a class="playernamelink"  target="_blank" href="http://m.mlb.com/gameday/player/'. $pitcher -> attributes() -> id .'">' . $pitcher -> attributes() -> name_display_first_last . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> pos . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> out . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> er . '</td>';
@@ -774,11 +785,11 @@ echo '</tr></table>';*/
 	#echo $dp['day'];
 	echo '<br />';
 	//echo $filename;
-	echo '<div><a href="' . $filename . '"   target="_blank">' . $filename . '</a></div>';
+	echo '<div align="right"><a href="' . $filename . '"   target="_blank" style="color:inherit;">' . $filename . '</a></div>';
 ?>
 
 <div align="right">
-	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com">Honus1064@gmail.com</a>
+	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com" style="color:inherit;">Honus1064@gmail.com</a>
 </div>
 
 </body>
