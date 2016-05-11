@@ -294,7 +294,8 @@ echo '<script  type="text/javascript">
 				echo '</table></td>';
 				// finish boxscore
 				$mlbgamedayurl = "http://mlb.mlb.com/mlb/gameday/index.jsp?gid={$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}";
-				echo '<td><a style="color:inherit" target="_blank" href="'.$mlbgamedayurl.'">Gameday</a></td>'; //{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}
+				echo '<td><a style="color:inherit" target="_blank" href="'.$mlbgamedayurl.'"><img src="http://www.mlb.com/favicon.ico" /></a></td>'; //{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}
+				echo '<td><a href="https://www.reddit.com/r/baseball" target="_blank"><img src="https://www.reddit.com/favicon.ico" /></a></td>';
 				echo '</tr></table>';
 			}
 		?>
