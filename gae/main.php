@@ -95,6 +95,21 @@
 
 $teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','DET','HOU','KCA','LAN','MIA','MIL','MIN','NYA','NYN','OAK','PHI','PIT','SDN','SEA','SFN','SLN','TBA','TEX','TOR','WAS');
 
+//$teamcricmap = array('ANA'=>'Los Angeles Angels','ARI'=>'Arizona Diamondbacks','ATL'=>'Atlanta Braves','BAL'=>'Baltimore Orioles',
+//	'BOS'=>'Boston Red Sox','CHA'=>'Chicago White Sox','CHN'=>'Chicago Cubs','CIN'=>"Cincinnati Reds",
+//	'CLE'=>'Cleveland Indians','COL'=>'Colorado Rockies','DET'=>'Detroit Tigers','HOU'=>'Houston Astros',
+//	'KCA'=>'Kansas City Royals','LAN'=>'Los Angeles Dodgers','MIA'=>'Miami Marlins','MIL'=>'Milwaukee Braves',
+//	'MIN'=>'Minnesota Twins','NYA'=>'New York Yankees','NYN'=>'New York Mets','OAK'=>'Oakland Athletics','PHI'=>'Philadelphia Phillies','PIT'=>'Pittsburgh Pirates',
+//	'SDN'=>'San Diego Padres','SEA'=>'Seattle Mariners','SFN'=>'San Francisco Giants','SLN'=>'St Louis Cardinals',
+//	'TBA'=>'Tampa Bay Rays','TEX'=>'Texas Rangers','TOR'=>'Toronto Blue Jays','WAS'=>'Washington Nationals');
+	
+$teamcricmap2 = array('ANA'=>'Los-Angeles-Angels','ARI'=>'Arizona-Diamondbacks','ATL'=>'Atlanta-Braves','BAL'=>'Baltimore-Orioles',
+	'BOS'=>'Boston-Red-Sox','CHA'=>'Chicago-White-Sox','CHN'=>'Chicago-Cubs','CIN'=>"Cincinnati-Reds",
+	'CLE'=>'Cleveland-Indians','COL'=>'Colorado-Rockies','DET'=>'Detroit-Tigers','HOU'=>'Houston-Astros',
+	'KCA'=>'Kansas-City-Royals','LAN'=>'Los-Angeles-Dodgers','MIA'=>'Miami-Marlins','MIL'=>'Milwaukee-Brewers',
+	'MIN'=>'Minnesota-Twins','NYA'=>'New-York-Yankees','NYN'=>'New-York-Mets','OAK'=>'Oakland-Athletics','PHI'=>'Philadelphia-Phillies','PIT'=>'Pittsburgh-Pirates',
+	'SDN'=>'San Diego-Padres','SEA'=>'Seattle-Mariners','SFN'=>'San-Francisco-Giants','SLN'=>'St-Louis-Cardinals',
+	'TBA'=>'Tampa-Bay-Rays','TEX'=>'Texas-Rangers','TOR'=>'Toronto-Blue-Jays','WAS'=>'Washington-Nationals');
 ?>
 
 
@@ -293,11 +308,16 @@ echo '<script  type="text/javascript">
 				echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
 				echo '</table></td>';
 				// finish boxscore
+			}
 				$mlbgamedayurl = "http://mlb.mlb.com/mlb/gameday/index.jsp?gid={$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}";
 				echo '<td><a style="color:inherit" target="_blank" href="'.$mlbgamedayurl.'"><img src="http://www.mlb.com/favicon.ico" /></a></td>'; //{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}
 				echo '<td><a href="https://www.reddit.com/r/baseball" target="_blank"><img src="https://www.reddit.com/favicon.ico" /></a></td>';
+				echo '<td>';
+					$cricgameurl2 = "http://cricfree.sx/watch/live/".$teamcricmap2[strtoupper($away_code)]."-vs-".$teamcricmap2[strtoupper($home_code)]."-live-streaming";
+					echo "<br><a href='".$cricgameurl2."' target='_blank' style='color:inherit;text-decoration:none;'>&#9918;</a>";
+				echo '</td>';
 				echo '</tr></table>';
-			}
+			
 		?>
 	</td>
 </tr></table>
@@ -793,5 +813,8 @@ echo '</tr></table>';*/
 	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com" style="color:inherit;">Honus1064@gmail.com</a>
 </div>
 
+<?php
+	
+?>
 </body>
 </html>
