@@ -309,14 +309,16 @@ echo '<script  type="text/javascript">
 				echo '</table></td>';
 				// finish boxscore
 			}
-				$mlbgamedayurl = "http://mlb.mlb.com/mlb/gameday/index.jsp?gid={$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}";
-				echo '<td><a style="color:inherit" target="_blank" href="'.$mlbgamedayurl.'"><img src="http://www.mlb.com/favicon.ico" /></a></td>'; //{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}
-				echo '<td><a href="https://www.reddit.com/r/baseball" target="_blank"><img src="https://www.reddit.com/favicon.ico" /></a></td>';
-				echo '<td>';
-					$cricgameurl2 = "http://cricfree.sx/watch/live/".$teamcricmap2[strtoupper($away_code)]."-vs-".$teamcricmap2[strtoupper($home_code)]."-live-streaming";
-					echo "<br><a href='".$cricgameurl2."' target='_blank' style='color:inherit;text-decoration:none;'>&#9918;</a>";
-				echo '</td>';
-				echo '</tr></table>';
+			$mlbgamedayurl = "http://mlb.mlb.com/mlb/gameday/index.jsp?gid={$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}";
+			echo '<td style="padding-left:20px;"><a style="color:inherit;text-decoration:none;" target="_blank" href="http://mlb.mlb.com/home"><img src="http://www.mlb.com/favicon.ico" /></a></td>';
+			echo '<td><a style="color:inherit;text-decoration:none;" target="_blank" href="http://mlb.mlb.com/mlb/standings/index.jsp">Standings</a><br />' . 
+					'<a style="color:inherit;text-decoration:none;" target="_blank" href="'.$mlbgamedayurl.'">Gameday</a></td>';
+			echo '<td><a href="https://www.reddit.com/r/baseball" target="_blank"><img src="https://www.reddit.com/favicon.ico" /></a></td>';
+			echo '<td>';
+				$cricgameurl2 = "http://cricfree.sx/watch/live/".$teamcricmap2[strtoupper($away_code)]."-vs-".$teamcricmap2[strtoupper($home_code)]."-live-streaming";
+				echo "<br><a href='".$cricgameurl2."' target='_blank' style='color:inherit;text-decoration:none;'>&#9918;</a>";
+			echo '</td>';
+			echo '</tr></table>';
 			
 		?>
 	</td>
@@ -657,9 +659,9 @@ echo '</tr></table>';*/
 		echo '<tr><td class="fullboxscoretd">Inning</td><td class="fullboxscoretd">Away</td><td class="fullboxscoretd">Home</td><td class="fullboxscoretd">Scoring Play</td></tr>';
 		foreach($inning_Scores -> score as $inning_score) {
 			echo '<tr>';
-			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> inn . '</td>';
-			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> away . '</td>';
-			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> home . '</td>';
+			echo '<td class="fullboxscoretd" style="text-align:center;">' . $inning_score -> attributes() -> inn . '</td>';
+			echo '<td class="fullboxscoretd" style="text-align:center;">' . $inning_score -> attributes() -> away . '</td>';
+			echo '<td class="fullboxscoretd" style="text-align:center;">' . $inning_score -> attributes() -> home . '</td>';
 			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> pbp . '</td>';
 			echo '</tr>';
 		}
@@ -703,10 +705,10 @@ echo '</tr></table>';*/
 			echo '<td class="fullboxscoretd">' . $teamiiiname . '</td>';
 			echo '<td class="fullboxscoretd">' . 'POS' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'H' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'AB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'BB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'RBI' . '</td>';
-			echo '<td class="fullboxscoretd">' . 'AB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'AVG' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'OBP' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'OPS' . '</td>';
@@ -715,13 +717,15 @@ echo '</tr></table>';*/
 			echo '</tr>';
 			foreach($boxscore -> batting[$teamiii] -> batter as $batter) {
 				echo '<tr>';
-				echo '<td class="fullboxscoretd"><a class="playernamelink"  target="_blank" href="http://m.mlb.com/gameday/player/'. $batter -> attributes() -> id .'">' . $batter -> attributes() -> name_display_first_last . '</a></td>';
+				echo '<td class="fullboxscoretd"><a class="playernamelink" target="_blank" href="http://m.mlb.com/gameday/player/'. $batter -> attributes() -> id .'"><div style="text-align:left;" >';
+				if (substr($batter -> attributes() -> bo,1,2) != "00") {echo "- ";}
+				echo $batter -> attributes() -> name_display_first_last . '</div></a></td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> pos . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> h . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ab . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> bb . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> hr . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> rbi . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ab . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> avg . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> obp . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ops . '</td>';
@@ -781,9 +785,9 @@ echo '</tr></table>';*/
 			echo '</tr>';
 			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
 				echo '<tr>';
-				echo '<td class="fullboxscoretd"><a class="playernamelink"  target="_blank" href="http://m.mlb.com/gameday/player/'. $pitcher -> attributes() -> id .'">' . $pitcher -> attributes() -> name_display_first_last . '</td>';
+				echo '<td class="fullboxscoretd"><a class="playernamelink"  target="_blank" href="http://m.mlb.com/gameday/player/'. $pitcher -> attributes() -> id .'"><div style="text-align:left;">' . $pitcher -> attributes() -> name_display_first_last . '</div></td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> pos . '</td>';
-				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> out . '</td>';
+				echo '<td class="fullboxscoretd">' . floor(((int)$pitcher -> attributes() -> out)/3) . '.' . ((int)$pitcher -> attributes() -> out)%3 . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> er . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> r . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> h . '</td>';
