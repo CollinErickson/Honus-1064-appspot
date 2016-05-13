@@ -104,11 +104,11 @@ $teamslist = array('ANA','ARI','ATL','BAL','BOS','CHA','CHN','CIN','CLE','COL','
 //	'TBA'=>'Tampa Bay Rays','TEX'=>'Texas Rangers','TOR'=>'Toronto Blue Jays','WAS'=>'Washington Nationals');
 	
 $teamcricmap2 = array('ANA'=>'Los-Angeles-Angels','ARI'=>'Arizona-Diamondbacks','ATL'=>'Atlanta-Braves','BAL'=>'Baltimore-Orioles',
-	'BOS'=>'Boston-Red-Sox','CHA'=>'Chicago-White-Sox','CHN'=>'Chicago-Cubs','CIN'=>"Cincinnati-Reds",
+	'BOS'=>'Boston-Red-Sox','CHA'=>'Chicago-White-Sox','CHN'=>'Chicago-Cubs','CIN'=>'Cincinnati-Reds',
 	'CLE'=>'Cleveland-Indians','COL'=>'Colorado-Rockies','DET'=>'Detroit-Tigers','HOU'=>'Houston-Astros',
 	'KCA'=>'Kansas-City-Royals','LAN'=>'Los-Angeles-Dodgers','MIA'=>'Miami-Marlins','MIL'=>'Milwaukee-Brewers',
 	'MIN'=>'Minnesota-Twins','NYA'=>'New-York-Yankees','NYN'=>'New-York-Mets','OAK'=>'Oakland-Athletics','PHI'=>'Philadelphia-Phillies','PIT'=>'Pittsburgh-Pirates',
-	'SDN'=>'San Diego-Padres','SEA'=>'Seattle-Mariners','SFN'=>'San-Francisco-Giants','SLN'=>'St-Louis-Cardinals',
+	'SDN'=>'San-Diego-Padres','SEA'=>'Seattle-Mariners','SFN'=>'San-Francisco-Giants','SLN'=>'St-Louis-Cardinals',
 	'TBA'=>'Tampa-Bay-Rays','TEX'=>'Texas-Rangers','TOR'=>'Toronto-Blue-Jays','WAS'=>'Washington-Nationals');
 ?>
 
@@ -217,7 +217,7 @@ echo '<script  type="text/javascript">
 
 <table id="toptable"><tr>
 	<td>
-		<h3 align='center' style='color:magenta;'>Honus<h1>
+		<h3 align='center' style='color:magenta;cursor:pointer;' onclick='window.location.href="/"'>Honus<h1>
 	</td>
 	<td>
 		Team:
@@ -814,7 +814,7 @@ echo '</tr></table>';*/
 ?>
 
 <div align="right">
-	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com" style="color:inherit;">Honus1064@gmail.com</a>
+	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com">Honus1064@gmail.com</a>
 </div>
 
 <?php
