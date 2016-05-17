@@ -217,7 +217,7 @@ echo '<script  type="text/javascript">
 
 <table id="toptable"><tr>
 	<td>
-		<h3 align='center' style='color:magenta;cursor:pointer;' onclick='window.location.href="/"'>Honus<h1>
+		<h3 align='center' style='color:magenta;cursor:pointer;padding-right:8px;' onclick='window.location.href="/"'>Honus<h1>
 	</td>
 	<td>
 		Team:
@@ -774,7 +774,7 @@ echo '</tr></table>';*/
 			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
 			echo '<td class="fullboxscoretd">' . $teamiiiname . '</td>';
 			echo '<td class="fullboxscoretd">' . 'POS' . '</td>';
-			echo '<td class="fullboxscoretd">' . 'OUT' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'INN' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'ER' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'R' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'H' . '</td>';
@@ -814,7 +814,7 @@ echo '</tr></table>';*/
 ?>
 
 <div align="right">
-	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com">Honus1064@gmail.com</a>
+	Suggestions, comments, questions? Email <a href="mailto:Honus1064@gmail.com" style="color:inherit;">Honus1064@gmail.com</a>
 </div>
 
 <?php

@@ -47,7 +47,11 @@ table {
 
 #toplinescore  {border: 0px solid aqua;}
 
-.fullboxscoretd {border: 1px solid #ff99dd;}
+.fullboxscoretd {
+	border: 1px solid #ff99dd;
+	padding-left: 3px;
+	padding-right: 3px;
+}
 
 #scoringplaystable {
 	border:3px solid #ff99dd;
