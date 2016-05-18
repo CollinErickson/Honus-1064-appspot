@@ -316,7 +316,9 @@ echo '<script  type="text/javascript">
 			echo '<td><a href="https://www.reddit.com/r/baseball" target="_blank"><img src="https://www.reddit.com/favicon.ico" /></a></td>';
 			echo '<td>';
 				$cricgameurl2 = "http://cricfree.sx/watch/live/".$teamcricmap2[strtoupper($away_code)]."-vs-".$teamcricmap2[strtoupper($home_code)]."-live-streaming";
-				echo "<br><a href='".$cricgameurl2."' target='_blank' style='color:inherit;text-decoration:none;'>&#9918;</a>";
+				echo "<a href='".$cricgameurl2."' target='_blank' style='color:inherit;text-decoration:none;'>&#9762;</a>";
+				$cricgameurl3 = "http://cricfree.sx/watch/live/".$teamcricmap2[strtoupper($home_code)]."-vs-".$teamcricmap2[strtoupper($away_code)]."-live-streaming";
+				echo "<br /><a href='".$cricgameurl3."' target='_blank' style='color:inherit;text-decoration:none;'>&#9760;</a>";
 			echo '</td>';
 			echo '</tr></table>';
 			
