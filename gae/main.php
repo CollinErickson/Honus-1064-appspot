@@ -709,6 +709,7 @@ echo '</tr></table>';*/
 			echo '<td class="fullboxscoretd">' . 'H' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'AB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'BB' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'SO' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'RBI' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'AVG' . '</td>';
@@ -726,6 +727,7 @@ echo '</tr></table>';*/
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> h . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ab . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> bb . '</td>';
+				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> so . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> hr . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> rbi . '</td>';
 				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> avg . '</td>';
@@ -780,9 +782,9 @@ echo '</tr></table>';*/
 			echo '<td class="fullboxscoretd">' . 'ER' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'R' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'H' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'BB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'SO' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
-			echo '<td class="fullboxscoretd">' . 'BB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'NP' . '</td>';
 			echo '</tr>';
 			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
@@ -793,9 +795,9 @@ echo '</tr></table>';*/
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> er . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> r . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> h . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> bb . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> so . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> hr . '</td>';
-				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> bb . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> np . '</td>';
 				echo '</tr>';
 			}
