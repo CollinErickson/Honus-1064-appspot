@@ -250,7 +250,7 @@ echo '<script  type="text/javascript">
 	<td><h4>
 		<?php  //$awayteamname . " vs " . $hometeamname ?> 
 		<?php 
-			echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:#b3ffff;'>" . 
+			echo "<a href='" . $datescoreboardurl . "' style='text-decoration:none;color:#b3ffff;' target='_blank'>" . 
 				$awayteamname . " (". $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> away_win . '-' . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> away_loss . ')' . 
 				" vs " . $hometeamname . " (" . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> home_win . "-" . $datescoreboardpagexml -> game[$selectedgamenumber]->attributes()-> home_loss . ")" .  "</a>";
 		?>
@@ -472,7 +472,7 @@ echo '<script  type="text/javascript">
 	//echo $homepage;echo 12;
 	//echo substr($homepage,0,23);
 	if ( substr($homepage,0,23) == "GameDay - 404 Not Found") {
-		echo "\nNo highlights yet";
+		//echo "\nNo highlights yet";
 	} else {
 		$xml = simplexml_load_string($homepage);
 		//echo $xml;
@@ -718,24 +718,26 @@ echo '</tr></table>';*/
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'RBI' . '</td>';
 			echo '</tr>';
-			foreach($boxscore -> batting[$teamiii] -> batter as $batter) {
-				echo '<tr>';
-				echo '<td class="fullboxscoretd"><a class="playernamelink" target="_blank" href="http://m.mlb.com/gameday/player/'. $batter -> attributes() -> id .'"><div style="text-align:left;" >';
-				if (substr($batter -> attributes() -> bo,1,2) != "00") {echo "- ";}
-				echo $batter -> attributes() -> name_display_first_last . '</div></a></td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> pos . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> h . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ab . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> bb . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> so . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> hr . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> rbi . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> avg . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> obp . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ops . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> s_hr . '</td>';
-				echo '<td class="fullboxscoretd">' . $batter -> attributes() -> s_rbi . '</td>';
-				echo '</tr>';
+			foreach($boxscore -> batting[$teamiii] -> batter as $batter) {  // loop over all batters and put their stats
+				if (!is_null($batter -> attributes() -> bo)) { // leave off AL pitchers, they have no bo attribute since they don't bat, no need to display
+					echo '<tr>';
+					echo '<td class="fullboxscoretd"><a class="playernamelink" target="_blank" href="http://m.mlb.com/gameday/player/'. $batter -> attributes() -> id .'"><div style="text-align:left;" >';
+					if (substr($batter -> attributes() -> bo,1,2) != "00") {echo "- ";}
+					echo $batter -> attributes() -> name_display_first_last . '</div></a></td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> pos . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> h . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ab . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> bb . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> so . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> hr . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> rbi . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> avg . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> obp . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ops . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> s_hr . '</td>';
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> s_rbi . '</td>';
+					echo '</tr>';
+				}
 			}
 			echo '</table><td>';
 		}
@@ -814,7 +816,7 @@ echo '</tr></table>';*/
 	#echo $dp['day'];
 	echo '<br />';
 	//echo $filename;
-	echo '<div align="right"><a href="' . $filename . '"   target="_blank" style="color:inherit;">' . $filename . '</a></div>';
+	//echo '<div align="right"><a href="' . $filename . '"   target="_blank" style="color:inherit;text-decoration:none;">' . gd2 . '</a></div>';
 ?>
 
 <div align="right">
