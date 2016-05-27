@@ -338,11 +338,14 @@ echo '<script  type="text/javascript">
 	// create table of scores, each row is a game
 	echo "<table id='scorestable'>";
 	$iii = 0; // keep track of which game each is
+	// loop over each game
 	foreach($datescoreboardpagexml as $a) {
 		//echo substr($a->attributes()-> away_code , 0,3);
+		// add new row for each game
 		echo '<tr class="scorestablegame" id="' . datescoreboardgamenumber . $iii . '" onclick="' . createGameOnclickURLForJS(  substr($a->attributes()-> away_code   , 0, 3   )     ,$year,$month,$day, (int)($a->attributes()->game_nbr)) .'">
 		<td class="scorestablegametd">';
 			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
+			// go through each possibility for game status, should have two tds to fill
 			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
 				echo "</td><td>";
 				$winning_pitcher_line='-';$losing_pitcher_line='-';
