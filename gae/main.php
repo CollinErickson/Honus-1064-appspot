@@ -550,6 +550,7 @@ echo '<script  type="text/javascript">
 		</table></td>
 		<td style="vertical-align:top;">
 			<?php
+			// This section makes the video player
 				// make video player if any headlines
 				if (count($headlines)>0) {
 					echo '<video id="videoplayer" controls  onclick="this.paused ? this.play() : this.pause();">
@@ -559,16 +560,11 @@ echo '<script  type="text/javascript">
 				} else { // else do something else
 					//echo '<img src="http://mlb.mlb.com/mlb/images/devices/teamBackdrop/teamBackdrop.jpg" />';
 					
-					// trying something new here
-					
+					// This takes images from the following page. Usually it is the probable pitchers before the game starts, or current pitcher and batter if already started
+					// When it is the free game of the day, one of the images just says something about being free game, should try to change that
 					$novideofilename = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_{$dbh}/atv_preview_noscores.xml";
-					//echo $novideofilename;
 					$novideohomepage = file_get_contents($novideofilename);
-					$novideoxml = simplexml_load_string($novideohomepage);
-					//echo $novideoxml[0];
-					//echo $novideoxml -> body -> preview -> baseballLineScorePreview -> leftLabel ;
-					//echo $novideoxml -> body -> preview -> baseballLineScorePreview -> banners -> imageWithLabels -> image ;
-					
+					$novideoxml = simplexml_load_string($novideohomepage);					
 					echo '<img src="' . $novideoxml -> body -> preview -> baseballLineScorePreview -> banners -> imageWithLabels -> image . '" />';
 					echo '<img src="' . $novideoxml -> body -> preview -> baseballLineScorePreview -> banners -> imageWithLabels[1] -> image . '" />';
 				}
