@@ -749,22 +749,12 @@ echo '</tr></table>';*/
 
 <?php
 	// pitching data
-	//$boxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/boxscore.xml";
-	//echo $rawboxscoreurl;
-	//$boxscorecontents = file_get_contents($boxscoreurl);
 	// Have to skip if game hasn't started yet
-	///$boxscorenotavail= (substr($boxscorecontents,0,23) == "GameDay - 404 Not Found");
 	if ($boxscorenotavail) {
 		//echo "\nNo highlights yet";
 	} else { // otherwise print the top boxscore			
-		//$rawboxscore = simplexml_load_string($rawboxscorecontents);
-		//$boxscore = simplexml_load_string($boxscorecontents);
-		//echo $rawboxscore -> team[0] -> batting -> batter[0] -> attributes() -> sb;
-		
-		//echo '<table>'; # combining pitching and batting to same table
 		echo '<tr>';
 		foreach(range(0,1) as $teamii) {
-			//echo ($boxscore -> batting[$teamii] -> attributes() -> team_flag == 'home');
 			// The following makes it do away team first, then home
 			$teamiii = +!(($boxscore -> batting[0] -> attributes() -> team_flag == 'home') == ($teamii));
 			$teamiiiname = '';
@@ -773,11 +763,8 @@ echo '</tr></table>';*/
 			} else {
 				$teamiiiname = $boxscore -> attributes() -> away_sname;
 			}
-			//echo $teamiii;
 			echo '<td style="vertical-align:top;"><table class="fullboxscoretables">';
 			echo '<tr>';
-			//echo '<td>' . $rawboxscore -> team[$teamiii] -> attributes() -> full_name . '</td>';
-			//echo '<td>' . $boxscore -> batting[$teamiii] -> attributes() -> team_flag . '</td>';
 			echo '<td class="fullboxscoretd">' . $teamiiiname . '</td>';
 			echo '<td class="fullboxscoretd">' . 'POS' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'INN' . '</td>';
@@ -789,6 +776,7 @@ echo '</tr></table>';*/
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'NP' . '</td>';
 			echo '</tr>';
+			// Loop over each pitcher, print their stats
 			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
 				echo '<tr>';
 				echo '<td class="fullboxscoretd"><a class="playernamelink"  target="_blank" href="http://m.mlb.com/gameday/player/'. $pitcher -> attributes() -> id .'"><div style="text-align:left;">' . $pitcher -> attributes() -> name_display_first_last . '</div></td>';
@@ -803,9 +791,12 @@ echo '</tr></table>';*/
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> np . '</td>';
 				echo '</tr>';
 			}
-			echo '</table><td>';
+			// end team pitching table
+			echo '</table></td>';
 		}
+		// end pitching row
 		echo '</tr>';
+		// end stats table
 		echo '</table>';
 	}
 ?>
