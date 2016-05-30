@@ -19,7 +19,7 @@
 </head>
 
 <?php  // FUNCTIONS put at top of file
-
+// this function does nothing and isn't used. It is repeated below where it is actually used.
 //echo date('h');echo date('M');date("F j, Y, g:i a");echo "\n".date("    D M j G:i:s T Y");    echo "abc\r\ndef";        
 	function foo($arg_1, $arg_2, /* ..., */ $arg_n)
 	{
@@ -46,6 +46,7 @@
 	}
 	
 	function createGameOnclickURLForJS ( $gototeam , $gotoyear , $gotomonth , $gotoday, $gotonbr) {
+		// gives URL for the onclick, is a relative link
 		if((int)$gotonbr == 1) {$gotonbr=null;};
 		$gotodata = array (
 			'team' => $gototeam,
@@ -58,6 +59,7 @@
 		return "window.location.href = '/?" . http_build_query($gotodata) . "'";
 	}
 	function createGameOnclickURLForJSRelative($gototeam , $gotoyear , $gotomonth , $gotoday, $offset) {
+		// Gives URL for another game but does relative dates, eg +-1 day
 		$gotodatestring = date('Ymd', strtotime($offset .' day', strtotime( $gotoyear.'/'.$gotomonth . '/' . $gotoday )));
 		$gotodata = array (
 			'team' => $gototeam,
