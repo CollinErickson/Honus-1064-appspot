@@ -741,7 +741,7 @@ echo '</tr></table>';*/
 					echo '</tr>';
 				}
 			}
-			echo '</table><td>';
+			echo '</table></td>';
 		}
 		echo '</tr>';
 		//echo '</table>';  # combining pitching and batting to same table
