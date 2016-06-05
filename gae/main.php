@@ -514,15 +514,17 @@ echo '<script  type="text/javascript">
 <table>
 	<tr>
 		<td style="vertical-align:top;"><table id="headlinestable">
-			<?php
-				if (count($headlines)>0) {
+			<?php // This section prints the headlines for the highlights
+				if (count($headlines)>0) { // if there is at least one, loop over them
 					for ($iii=0; $iii<count($headlines); $iii++) {
 						$headline = $headlines[$iii];
 						//$url = $urls[$iii]; now using different qualities/sizes
+						// Get the urls for various video qualities
 						$url1200K = $urls[$iii];
 						$url2500K = str_replace('1200K','2500K',$url1200K);
 						$url1800K = str_replace('1200K','1800K',$url1200K);
 						$url = $url1800K; // This sets the quality
+						// Echo the headline
 						echo "<tr class='headlinestabletr' id='headlinetr'",$iii,"><td id='headline",$iii,"' class='headlinestabletd' 
 						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
 								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>",$headline,"</td>
@@ -535,6 +537,7 @@ echo '<script  type="text/javascript">
 									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
 									&#8593;
 								</td>";*/
+						// Echo the higher and lower quality videos, printed as arrows
 						echo "	<td><table style='font-size:.47em'><tr><td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url2500K,"\");
 									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>
 									&#x25B2;
