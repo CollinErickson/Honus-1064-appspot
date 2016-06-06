@@ -583,52 +583,6 @@ echo '<script  type="text/javascript">
 </tr></table>
 
 <?php
-// Box score at bottom
-/*$rawboxscoreurl = "http://gd2.mlb.com/components/game/mlb/year_{$year}/month_{$month}/day_{$day}/gid_{$year}_{$month}_{$day}_{$away_code}mlb_{$home_code}mlb_1/rawboxscore.xml";
-$rawboxscorecontents = file_get_contents($rawboxscoreurl);
-$rawboxscore = simplexml_load_string($rawboxscorecontents);
-echo '<table><tr>';
-// loop through each inning and print the scores
-foreach($rawboxscore -> linescore -> inning_line_score as $abc) {
-	echo '<td><table>';
-	echo '<tr><td>' . $abc -> attributes() -> inning . '</td></tr>';
-	echo '<tr><td>';
-	if (strlen($abc -> attributes() -> away) > 0) {
-		echo $abc -> attributes() -> away;
-	} else {
-		echo '-';
-	}
-	echo '</td></tr>';
-	echo '<tr><td>';
-	if (strlen($abc -> attributes() -> home) > 0) {
-		echo $abc -> attributes() -> home;
-	} else {
-		echo '-';
-	}
-	echo '</td></tr>';
-	echo '</table></td>';
-}
-// and summary stats
-echo '<td><table>';
-echo '<tr><td>R</td></tr>';
-echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_runs . '</td></tr>';
-echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_runs . '</td></tr>';
-echo '</table></td>';
-echo '<td><table>';
-echo '<tr><td>H</td></tr>';
-echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_hits . '</td></tr>';
-echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_hits . '</td></tr>';
-echo '</table></td>';
-echo '<td><table>';
-echo '<tr><td>E</td></tr>';
-echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> away_team_errors. '</td></tr>';
-echo '<tr><td>' . $rawboxscore -> linescore -> attributes() -> home_team_errors. '</td></tr>';
-echo '</table></td>';
-// finish boxscore
-echo '</tr></table>';*/
-?>
-
-<?php
 	// adding table for current pitcher and batter and ondeck and inhole
 	$a = $datescoreboardpagexml -> game[$selectedgamenumber];
 	if (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
