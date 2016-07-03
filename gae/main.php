@@ -386,20 +386,21 @@ echo '<script  type="text/javascript">
 				echo $a->status->attributes()->inning; 
 				$outs = $a->status->attributes()-> o; if($outs == '0') {} else if($outs == '1'){echo '<b>&#0149;</b>';} else if($outs == '2'){echo '<b>:</b>';} else if ($outs=='3'){echo '&#10073;';} else {echo $outs;};
 				if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
-				if ($a -> game_media -> media -> attributes() -> free == "ALL") {
-					echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' style='text-decoration: none'>FGOD</a>";
+				// next four lines get link to MLB.tv, FGOD no longer points to media center
+				$mlbtvlink = $a -> links -> attributes() -> mlbtv;
+				$mlbtvlink_number = explode("'", (string)$mlbtvlink)[1];
+				$mlbtvlink_url = "http://m.mlb.com/tv/e" . $mlbtvlink_number;
+				if ($a -> game_media -> media -> attributes() -> free == "ALL") { // link to MLB.tv, says FGOD or is TV symbol
+					//echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' style='text-decoration: none'>FGOD</a>";
+					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>FGOD</a>";
 				} else {
-					// next four lines get link to MLB.tv
-					$mlbtvlink = $a -> links -> attributes() -> mlbtv;
-					$mlbtvlink_number = explode("'", (string)$mlbtvlink)[1];
-					$mlbtvlink_url = "http://m.mlb.com/tv/e" . $mlbtvlink_number;
 					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>&#x1F4FA;</a>";
 				}
-				  echo "</td></tr></table><td>";
-					echo "<table><tr><td>P:".$a -> pitcher -> attributes() -> last . "</td></tr>";
-					echo "<tr><td>B:". $a -> batter -> attributes() -> last  . "</td>";
-					echo "</tr></table>";
-					echo "</td>";
+				echo "</td></tr></table><td>";
+				echo "<table><tr><td>P:".$a -> pitcher -> attributes() -> last . "</td></tr>";
+				echo "<tr><td>B:". $a -> batter -> attributes() -> last  . "</td>";
+				echo "</tr></table>";
+				echo "</td>";
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
 				//echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
@@ -525,9 +526,9 @@ echo '<script  type="text/javascript">
 						$url1800K = str_replace('1200K','1800K',$url1200K);
 						$url = $url1800K; // This sets the quality
 						// Echo the headline
-						echo "<tr class='headlinestabletr' id='headlinetr'",$iii,"><td id='headline",$iii,"' class='headlinestabletd' 
+						echo "<tr class='headlinestabletr' id='headlinetr",$iii,"'><td id='headline",$iii,"' class='headlinestabletd' 
 						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
-								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>",$headline,"</td>
+								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headlinetr",$iii,"\").style.background = \"#e0ccff\";'>",$headline,"</td>
 								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>";
 						/*echo "	<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
 									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
