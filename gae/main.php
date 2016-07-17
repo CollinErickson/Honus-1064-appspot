@@ -5,12 +5,12 @@
   <title>Honus</title>
     <!-- Load jQuery from Google's CDN -->
     <!-- Load jQuery UI CSS  -->
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
     <!-- Load jQuery JS -->
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
     <!-- Load jQuery UI Main JS  -->
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     
     <!-- Load SCRIPT.JS which will create datepicker for input field  -->
     <script type="text/javascript"  src="/scripts/script.js"></script>
@@ -162,7 +162,23 @@ $teamcricmap2 = array('ANA'=>'Los-Angeles-Angels','ARI'=>'Arizona-Diamondbacks',
 	$datescoreboardpage = file_get_contents($datescoreboardurl);
 	$datescoreboardpagexml = simplexml_load_string($datescoreboardpage);
 
-	$selectedgamenumber = 0;
+	$selectedgamenumber = 0; 
+	if (count($datescoreboardpagexml -> game) == 0) { // Exits script if no games on selected date (days after ASG). Copied this code from datepicker below.
+		echo "<p>Error: No games today, choose another day</p>";
+		echo '<body><table><tr>
+			<td>Date:</td> 
+			<td><input type="text" id="datepicker"> </td>
+			<!--<td>&#8647; </td>
+			<td>&#8592;</td>  -->
+			<td class="datemovearrow" onclick="' . createGameOnclickURLForJSRelative($team,$year,$month,$day,-2) . '" >&#10092;</td>
+			<td class="datemovearrow" onclick="' . createGameOnclickURLForJSRelative($team,$year,$month,$day,-1) . '" >&#10096;</td>
+			<td class="datemovearrow" onclick="' . createGameOnclickURLForJS($team,$yeartoday,$monthtoday,$daytoday,'1') . '" >&#10074;</td>
+			<td class="datemovearrow" onclick="' . createGameOnclickURLForJSRelative($team,$year,$month,$day,+1) . '" >&#10097;</td>
+			<td class="datemovearrow" onclick="' . createGameOnclickURLForJSRelative($team,$year,$month,$day,+2) . '" >&#10093;</td>
+			<td><button onclick=\'goToDatePicked()\'> Go! </button></td>
+		</tr></table></body>';
+		exit(); //exit("Exiting");
+	};
 	$hometeam = $datescoreboardpagexml -> game[0]->attributes()-> home_code;
 	$awayteam = $datescoreboardpagexml -> game[0]->attributes()-> away_code;
 	$hometeamname = $datescoreboardpagexml -> game[0]->attributes()-> home_team_name;
@@ -199,7 +215,7 @@ echo '<script  type="text/javascript">
 	//  jQuery ready function. Specify a function to execute when the DOM is fully loaded. 
 	$(document).ready(
 	  // This is the function that will get executed after the DOM is fully loaded 
-	  function () {console.log("ready 0987520933");
+	  function () {//console.log("ready 0987520933");
 		$( "#datepicker" ).datepicker({
 		  changeMonth: true,//this option for allowing user to select month
 		  changeYear: true //this option for allowing user to select from year range

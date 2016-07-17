@@ -1,4 +1,4 @@
-console.log("here in script.js");
+//console.log("here in script.js");
 
 /*
 //  jQuery ready function. Specify a function to execute when the DOM is fully loaded. 
