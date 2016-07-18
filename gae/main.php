@@ -751,6 +751,10 @@ echo '<script  type="text/javascript">
 			echo '<td class="fullboxscoretd">' . 'SO' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'NP' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'W-L' . '</td>';
+			//echo '<td class="fullboxscoretd">' . 'L' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'SV' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'ERA' . '</td>';
 			echo '</tr>';
 			// Loop over each pitcher, print their stats
 			foreach($boxscore -> pitching[1-$teamiii] -> pitcher as $pitcher) {
@@ -765,6 +769,10 @@ echo '<script  type="text/javascript">
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> so . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> hr . '</td>';
 				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> np . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> w . '-' . $pitcher -> attributes() -> l . '</td>';
+				//echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> l . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> sv . '</td>';
+				echo '<td class="fullboxscoretd">' . $pitcher -> attributes() -> era . '</td>';
 				echo '</tr>';
 			}
 			// end team pitching table
