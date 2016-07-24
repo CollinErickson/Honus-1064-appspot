@@ -542,25 +542,18 @@ echo '<script  type="text/javascript">
 						$url1800K = str_replace('1200K','1800K',$url1200K);
 						$url = $url1800K; // This sets the quality
 						// Echo the headline
-						echo "<tr class='headlinestabletr' id='headlinetr",$iii,"'><td id='headline",$iii,"' class='headlinestabletd' 
-						onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
-								document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headlinetr",$iii,"\").style.background = \"#e0ccff\";'>",$headline,"</td>
+						echo "<tr class='headlinestabletr' id='headlinetr",$iii,"' onclick='document.getElementById(\"headlinetr",$iii,"\").style.background = \"#e0ccff\";'>
+								<td id='headline",$iii,"' class='headlinestabletd' 
+								onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url,"\");
+								document.getElementById(\"videoplayer\").autoplay=true;'>",$headline,"</td>
 								<td><a href='" . $url . "'  target='_blank'  style='text-decoration: none'>&#8599;</a></td>";
-						/*echo "	<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
-									&#8595;
-								</td>
-								<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url2500K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"fuchsia\";'>
-									&#8593;
-								</td>";*/
 						// Echo the higher and lower quality videos, printed as arrows
 						echo "	<td><table style='font-size:.47em'><tr><td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url2500K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>
+									document.getElementById(\"videoplayer\").autoplay=true;'>
 									&#x25B2;
 								</td></tr><tr>
 								<td onclick='document.getElementById(\"videoplayer\").setAttribute(\"src\", \"",$url1200K,"\");
-									document.getElementById(\"videoplayer\").autoplay=true;document.getElementById(\"headline",$iii,"\").style.background = \"#e0ccff\";'>
+									document.getElementById(\"videoplayer\").autoplay=true;'>
 									&#x25BC;
 								</td></tr></table></td>";
 						echo "	</tr>";
