@@ -364,7 +364,7 @@ echo '<script  type="text/javascript">
 		<td class="scorestablegametd">';
 			echo "<table><tr><td>",$a->attributes()->away_team_name,"</td></tr><tr><td>",$a->attributes()->home_team_name,"</td></tr></table>\n";
 			// go through each possibility for game status, should have two tds to fill
-			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over") {
+			if (($a->status->attributes()->status)=="Final" || ($a->status->attributes()->status) == "Game Over" || ($a->status->attributes()->status) == "Completed Early" ) {
 				echo "</td><td>";
 				$winning_pitcher_line='-';$losing_pitcher_line='-';
 				$winning_pitcher_line = "W:" . $a -> winning_pitcher ->attributes() -> last . "(" . $a -> winning_pitcher ->attributes() -> wins . "-" . $a -> winning_pitcher ->attributes() -> losses . ")";
