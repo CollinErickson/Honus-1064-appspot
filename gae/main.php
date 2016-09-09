@@ -391,6 +391,7 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				echo "<table><tr><td";if ($away_gray) {echo " style='color:gray;'";};echo ">",  $away_pitcher_line,"</td></tr>";
 				echo "<tr><td";if ($home_gray) {echo " style='color:gray;'";};echo ">", $home_pitcher_line, "</td></tr></table>\n";
+				
 			} elseif (($a->status->attributes()->status)=="In Progress" || ($a->status->attributes()->status)=="Review" || ($a->status->attributes()->status)=="Manager Challenge" || ($a->status->attributes()->status)=="Delayed") {
 				echo "</td><td>";
 				  echo "<table><tr><td>";
@@ -400,7 +401,23 @@ echo '<script  type="text/javascript">
 				//if ($a -> attributes() -> is_no_hiter){echo 'NH';}
 				if (($a->status->attributes()->top_inning)=="Y"){echo "&#x25B2;";} else {echo "&#x25BC;";}
 				echo $a->status->attributes()->inning; 
-				$outs = $a->status->attributes()-> o; if($outs == '0') {} else if($outs == '1'){echo '<b>&#0149;</b>';} else if($outs == '2'){echo '<b>:</b>';} else if ($outs=='3'){echo '&#10073;';} else {echo $outs;};
+				$outs = $a->status->attributes()-> o; 
+				if($outs == '0') { // display number of outs with dots or pipe
+					// do nothing
+				} else if($outs == '1'){
+					echo '<b>&#0149;</b>';
+				} else if($outs == '2'){
+					echo '<b>:</b>';
+				} else if ($outs=='3'){
+					echo '&#10073;';
+				} else {
+					echo $outs;
+				};
+				$baseRunnerStatus = $a -> runners_on_base -> attributes() -> status;
+				//echo "<div style='padding-left:0px'>";
+				//echo "<img src='/transparent.png' alt='Baserunners' height='12' width='2' />";
+				//echo "<img src='/Baserunners" . $baseRunnerStatus . ".png' alt='Baserunners' height='12' width='12' />";
+				//echo "</div>";
 				if(($a->status->attributes()->status)=="Delayed"){echo ' Delayed<br />',$a->status->attributes()->reason;}
 				// next four lines get link to MLB.tv, FGOD no longer points to media center
 				$mlbtvlink = $a -> links -> attributes() -> mlbtv;
@@ -408,15 +425,17 @@ echo '<script  type="text/javascript">
 				$mlbtvlink_url = "http://m.mlb.com/tv/e" . $mlbtvlink_number;
 				if ($a -> game_media -> media -> attributes() -> free == "ALL") { // link to MLB.tv, says FGOD or is TV symbol
 					//echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' style='text-decoration: none'>FGOD</a>";
-					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>FGOD</a>";
+					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:inherit'>FGOD</a>";
 				} else {
-					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:black'>&#x1F4FA;</a>";
+					echo "<br><a href='" . $mlbtvlink_url . "' target='_blank'  style='text-decoration: none;color:inherit'>&#x1F4FA;</a>";
 				}
+				echo " <img src='/Baserunners" . $baseRunnerStatus . ".png' alt='Baserunners' height='12' width='12' />";
 				echo "</td></tr></table><td>";
 				echo "<table><tr><td>P:".$a -> pitcher -> attributes() -> last . "</td></tr>";
 				echo "<tr><td>B:". $a -> batter -> attributes() -> last  . "</td>";
 				echo "</tr></table>";
 				echo "</td>";
+				
 			} elseif (($a->status->attributes()->status)=="Preview" || ($a->status->attributes()->status)=="Pre-Game" || ($a->status->attributes()->status)=="Warmup") {
 				//echo "</td><td>";
 				//echo "<table><tr><td>",$a->away_probable_pitcher->attributes()->last_name,"</td></tr><tr><td>",$a->home_probable_pitcher->attributes()->last_name,"</td></tr></table>\n";
@@ -424,7 +443,7 @@ echo '<script  type="text/javascript">
 				//echo $a->attributes()->time," ET";
 				echo "</td><td>";
 				echo $a->attributes()->time," ET";
-				if( $a -> game_media -> attributes() -> free) {if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";};}
+				if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' style='color:inherit;text-decoration:none'>FGOD</a>";}
 				echo "</td><td>";
 				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
 				echo">",$a->away_probable_pitcher->attributes()->last_name,"(",$a->away_probable_pitcher->attributes()->wins,"-",$a->away_probable_pitcher->attributes()->losses,")</td></tr>";
@@ -433,7 +452,7 @@ echo '<script  type="text/javascript">
 			} elseif (($a->status->attributes()->status)=="Delayed Start") {
 				echo "</td><td>";
 				echo "Delayed<br>Start";
-				if( $a -> game_media -> attributes() -> free) {if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' >FGOD</a>";};}
+				if($a -> game_media -> media -> attributes() -> free == "ALL") {echo "<br><a href='http://mlb.mlb.com/mediacenter/' target='_blank' style='color:inherit;text-decoration:none'>FGOD</a>";}
 				echo "</td><td>";
 				echo "<table><tr><td";  if ($a->away_probable_pitcher->attributes()->last_name=="Gray") {echo " style='color:gray;'";};  // Gray easter egg, it's Gray Day!
 				echo">",$a->away_probable_pitcher->attributes()->last_name,"(",$a->away_probable_pitcher->attributes()->wins,"-",$a->away_probable_pitcher->attributes()->losses,")</td></tr>";
