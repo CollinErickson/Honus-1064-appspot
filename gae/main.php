@@ -465,6 +465,11 @@ echo '<script  type="text/javascript">
 				echo "</td><td>";
 				//echo "PP";
 				echo $a->status->attributes()->reason;
+			} elseif (($a->status->attributes()->status)=="Cancelled") { // e.g. 9/25/16 RIP Jose Fernandez
+				echo "</td><td>";
+				echo "Cancelled";
+				echo "</td><td>";
+				echo $a->status->attributes()->reason;
 			} elseif (($a->status->attributes()->status)=="notDelayed") { // MOVED THIS INTO In-Progress SINCE I WANT SCORE STILL AND INNING
 				echo "</td><td>";
 				//echo "<table><tr><td>",$a->linescore->r->attributes()->away,"</td></tr><tr><td>",$a->linescore->r->attributes()->home,"</td></tr></table>";
