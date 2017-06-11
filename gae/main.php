@@ -709,6 +709,7 @@ echo '<script  type="text/javascript">
 			echo '<td class="fullboxscoretd">' . 'SO' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'HR' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'RBI' . '</td>';
+			echo '<td class="fullboxscoretd">' . 'SB' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'AVG' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'OBP' . '</td>';
 			echo '<td class="fullboxscoretd">' . 'OPS' . '</td>';
@@ -728,6 +729,11 @@ echo '<script  type="text/javascript">
 					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> so . '</td>';
 					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> hr . '</td>';
 					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> rbi . '</td>';
+					if ($batter -> attributes() -> sb == "0" and $batter -> attributes() -> cs == "0") {
+					echo '<td class="fullboxscoretd">' . "" . '</td>';
+					} else {
+					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> sb . "/" . (intval($batter -> attributes() -> cs) + intval($batter -> attributes() -> sb)) . '</td>';
+					}
 					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> avg . '</td>';
 					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> obp . '</td>';
 					echo '<td class="fullboxscoretd">' . $batter -> attributes() -> ops . '</td>';
