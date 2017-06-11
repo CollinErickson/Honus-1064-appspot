@@ -657,7 +657,11 @@ echo '<script  type="text/javascript">
 			echo '<td class="fullboxscoretd" style="text-align:center;">' . $inning_score -> attributes() -> inn . '</td>';
 			echo '<td class="fullboxscoretd" style="text-align:center;">' . $inning_score -> attributes() -> away . '</td>';
 			echo '<td class="fullboxscoretd" style="text-align:center;">' . $inning_score -> attributes() -> home . '</td>';
-			echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> pbp . '</td>';
+			if ($inning_score -> attributes() -> pbp != "") {
+				echo '<td class="fullboxscoretd">' . $inning_score -> attributes() -> pbp . '</td>';
+			} else {
+				echo '<td class="fullboxscoretd">' . $inning_score -> atbat -> attributes() -> des . '</td>';
+			}
 			echo '</tr>';
 		}
 
